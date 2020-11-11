@@ -1,0 +1,29 @@
+{
+  "name": "cdm-risk-register",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "setup-dbs": "psql -f ./db/setup.sql",
+    "test": "jest --verbose=false ./__tests__"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joaojesus81/CDM-Risk-Register.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joaojesus81/CDM-Risk-Register/issues"
+  },
+  "homepage": "https://github.com/joaojesus81/CDM-Risk-Register#readme",
+  "dependencies": {
+    "knex": "^0.21.12",
+    "node-postgres": "^0.6.2",
+    "pg": "^8.5.0"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3",
+    "supertest": "^6.0.1"
+  }
+}
