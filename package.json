@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "setup-dbs": "psql -f ./db/setup.sql",
-    "test": "jest --verbose=false ./__tests__"
+    "test": "jest --verbose=false ./__tests__",
+    "mig-make": "knex migrate:make"
   },
   "repository": {
     "type": "git",

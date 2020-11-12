@@ -14,15 +14,15 @@ const baseConfig = {
 const customConfig = {
   development: {
     connection: {
-      database: "CDMRR",
-      user: "joao",
+      database: "cdmrr",
+      user: "jsilva",
       password: "password",
     },
   },
   test: {
     connection: {
-      database: "CDMRR_test",
-      user: "joao",
+      database: "cdmrr_test",
+      user: "jsilva",
       password: "password",
     },
   },
