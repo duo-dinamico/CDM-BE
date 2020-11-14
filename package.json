@@ -6,7 +6,8 @@
   "scripts": {
     "setup-dbs": "psql -f ./db/setup.sql",
     "test": "jest --verbose=false ./__tests__",
-    "mig-make": "knex migrate:make"
+    "mig-make": "knex migrate:make",
+    "seed": "NODE_ENV=test knex seed:run"
   },
   "repository": {
     "type": "git",
