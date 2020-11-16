@@ -27,4 +27,20 @@ describe("/api", () => {
         });
     });
   });
+  describe("/api/project/project_number", () => {
+    it("GET 200 - Returns 200 response from server", () => {
+      return request(app).get("/api/project/111111-11").expect(200);
+    });
+    it("GET 200 - Should return an object", () => {
+      return request(app)
+        .get("/api/project/1")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body).toEqual(
+            expect.objectContaining({ project: expect.any(Object) })
+          );
+        });
+    });
+  });
+
 });

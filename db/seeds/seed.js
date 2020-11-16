@@ -15,15 +15,15 @@ exports.seed = function (knex) {
       const projectsInsertion = knex("projects").insert(projectsData);
       const recordInsertion = knex("record_issues").insert(recordData);
       const registerInsertion = knex("register").insert(registerData);
-      const recordRegisterInsertion = knex("record_register").insert(
-        recordRegisterData
-      );
+      // const recordRegisterInsertion = knex("record_register").insert(recordRegisterData);
 
       return Promise.all([
         projectsInsertion,
         recordInsertion,
         registerInsertion,
-        recordRegisterInsertion,
+        // recordRegisterInsertion,
       ]);
+    }).then(() => {
+      return knex("record_register").insert(recordRegisterData);
     });
 };

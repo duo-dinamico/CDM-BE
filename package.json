@@ -8,7 +8,7 @@
     "test": "jest --watch --verbose=false ./__tests__",
     "mig-make": "knex migrate:make",
     "seed": "NODE_ENV=test knex seed:run",
-    "start": "nodemon listen.js"
+    "start": "nodemon listen.js -L"
   },
   "repository": {
     "type": "git",
