@@ -54,8 +54,8 @@ describe("/api", () => {
       return request(app)
         .del("/api/project/1")
         .expect(200)
-        .then(({ body }) => {
-          expect(body).toEqual("Object deleted");
+        .then(({text}) => {
+          expect(text).toEqual("Project deleted");
         });
     });
   });

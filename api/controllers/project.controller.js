@@ -9,7 +9,7 @@ exports.getProjectByNumber = (req, res, next) => {
 
 exports.delProjectByNumber = (req, res, next) => {
   const {project_number} = req.params;
-  deleteProjectByNumber({project_number}).then(() => {
-    res.status(200).send("Project deleted");
+  deleteProjectByNumber({project_number}).then((response) => {
+    res.status(200).send(response);
   });
 };
