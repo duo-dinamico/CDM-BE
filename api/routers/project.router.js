@@ -1,6 +1,7 @@
 const projectRouter = require("express").Router();
-const { getProjectByNumber } = require("../controllers/project.controller");
+const { getProjectByNumber, delProjectByNumber } = require("../controllers/project.controller");
 
-projectRouter.route("/:project_number").get(getProjectByNumber);
+
+projectRouter.route("/:project_number").get(getProjectByNumber).delete(delProjectByNumber);
 
 module.exports = projectRouter; 

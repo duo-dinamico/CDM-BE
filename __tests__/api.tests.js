@@ -27,6 +27,8 @@ describe("/api", () => {
         });
     });
   });
+
+  // Get a project
   describe("/api/project/project_number", () => {
     it("GET 200 - Returns 200 response from server", () => {
       return request(app).get("/api/project/111111-11").expect(200);
@@ -39,6 +41,21 @@ describe("/api", () => {
           expect(body).toEqual(
             expect.objectContaining({ project: expect.any(Object) })
           );
+        });
+    });
+  });
+
+  // Delete a project
+  describe("/api/project/project_number", () => {
+    it("DELETE 200 - Returns 200 response from server", () => {
+      return request(app).del("/api/project/111111-11").expect(200);
+    });
+    it("DELETE 200 - Should return a text", () => {
+      return request(app)
+        .del("/api/project/1")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body).toEqual("Object deleted");
         });
     });
   });
