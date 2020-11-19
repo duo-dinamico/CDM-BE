@@ -1,5 +1,6 @@
 module.exports = [
   {
+    project_number: "111111-11",
     register_id: 1,
     description: "Ground Contamination",
     risk_status: "CONTINUED",
@@ -22,6 +23,7 @@ module.exports = [
     date: "5-Jun-17",
   },
   {
+    project_number: "111111-11",
     register_id: 2,
     description: "Plant Replacement - To replace major plant components on the Rotating Test Wings and PTCD Test roofs that will require craneage. Danger of injury during removal.",
     risk_status: "CONTINUED",
@@ -44,6 +46,7 @@ module.exports = [
     date: "14-Sep-18",
   },
   {
+    project_number: "111111-11",
     register_id: 3,
     description: "Plant Replacement - To replace major plant components on the Rotating Test Wings and PTCD Test roofs that will require craneage. Danger of injury during removal.",
     risk_status: "CONTINUED",
@@ -66,6 +69,7 @@ module.exports = [
     date: "14-Sep-18",
   },
   {
+    project_number: "111111-22",
     register_id: 4,
     description: "Danger of falling from height during installation and cleaning / maintenance.",
     risk_status: "ACTIVE",
@@ -88,6 +92,7 @@ module.exports = [
     date: "14-Sep-18",
   },
   {
+    project_number: "111111-22",
     register_id: 5,
     description: "Manual Handling of Switchgear, Switchboards – High centre of gravity can make the load unstable when manoeuvring. Danger of installers getting injured by falling equipment ",
     risk_status: "CONTINUED",
@@ -110,6 +115,7 @@ module.exports = [
     date: "23-May-16",
   },
   {
+    project_number: "111111-22",
     register_id: 6,
     description: "Working in close proximity to high voltage cable installations and HV/LV switchgear. Danger of risk to life through electrocution ",
     risk_status: "CONTINUED",
@@ -132,6 +138,7 @@ module.exports = [
     date: "23-May-16",
   },
   {
+    project_number: "111111-33",
     register_id: 7,
     description: "Attenuation ponds - potential of drowning.",
     risk_status: "RESOLVED",
@@ -154,6 +161,7 @@ module.exports = [
     date: "23-May-16",
   },
   {
+    project_number: "111111-33",
     register_id: 8,
     description: "Roof mounted services distribution routes mounted on appropriate roof structure",
     risk_status: "CONTINUED",
@@ -176,6 +184,7 @@ module.exports = [
     date: "19-Aug-16",
   },
   {
+    project_number: "111111-33",
     register_id: 9,
     description: "HV Switchrooms:  Malicious activation of switchgear to disrupt the Client's business",
     risk_status: "CONTINUED",

@@ -1,0 +1,11 @@
+{
+  "GET /api": {
+    "description": "serves up a json representation of all the available endpoints of the api"
+  },
+  "Get /api/projects": {
+    "description": "gets all projects"
+  },
+  "Post /api/project/:project_number": {
+    "description": "posts a project with a new number"
+  }
+}
