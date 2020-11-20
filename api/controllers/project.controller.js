@@ -3,6 +3,7 @@ const {
   deleteProjectByNumber,
   createProjectByNumber,
   editProjectByNumber,
+  fetchRecordByProject
 } = require("../models/project.model");
 
 exports.getProjectByNumber = (req, res, next) => {
@@ -46,3 +47,12 @@ exports.patchProjectByNumber = (req, res, next) => {
       next(err);
     });
 };
+
+exports.getRecordByProject = (req, res, next) => {
+  fetchRecordByProject(req.params)
+    .then((records) => {
+      res.status(200).send(records)
+   }).catch((err) => {
+     next(err);
+   });
+}

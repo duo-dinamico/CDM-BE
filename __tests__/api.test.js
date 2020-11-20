@@ -24,6 +24,7 @@ describe("/api", () => {
   it("GET 200 - Returns 200 response from server", () => {
     return request(app).get("/api").expect(200);
   });
+
   describe("/api/projects", () => {
     it("INVALID METHODS - Should return method not allowed", () => {
       const methods = ["del", "post", "patch", "put"];
@@ -228,4 +229,31 @@ describe("/api", () => {
         });
     });
   });
+
+  // Records
+  describe("/api/project/:project_number/records", () => {
+    it("GET 200 - Returns 200 response from server", () => {
+      return request(app).get("/api/project/111111-11/records").expect(200);
+    });
+    it("GET 200 - Should return an object", () => {
+      return request(app)
+        .get("/api/project/111111-11/records")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body).toEqual(expect.arrayContaining([expect.any(Object)]));
+        });
+    });
+    it("GET 400 - if non existing project number", () => {
+      return request(app)
+      .get("/api/project/4444/records")
+      .expect(400).then((response) => {
+        console.log(response.body);
+        expect(response.body.msg).toBe("Project not found")
+      });
+    })
+  });
 });
+
+
+
+
