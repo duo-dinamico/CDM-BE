@@ -47,4 +47,16 @@ module.exports = [
     approved: "SM",
     remarks: "blah blah",
   },
+  {
+    record_id: 5,
+    project_number: "111111-11",
+    version_number: "34",
+    stage_issued: "Construction",
+    purpose: "INFORMATION",
+    date: "2020-07-12",
+    prepared: "PJ",
+    checked: "PJ",
+    approved: "BOSS",
+    remarks: "among other problems",
+  }
 ];
