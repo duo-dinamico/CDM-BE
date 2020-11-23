@@ -103,3 +103,16 @@ exports.fetchRecordByProject = (project_number) => {
     }
   })
 }
+
+exports.fetchRecordByRecordId = (params) => {
+  return connection("record_issues")
+  .where("project_number", params.project_number)
+  .where("record_id", params.record_id)
+  .then((response) => {
+    if (response.length < 1) {
+      return Promise.reject({ status: 400, msg: "Project not found" });
+    } else {
+      return response;
+    }
+  })
+}

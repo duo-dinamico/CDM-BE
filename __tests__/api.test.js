@@ -230,7 +230,7 @@ describe("/api", () => {
     });
   });
 
-  // Records
+  // Get All Records by project_number
   describe("/api/project/:project_number/records", () => {
     it("GET 200 - Returns 200 response from server", () => {
       return request(app).get("/api/project/111111-11/records").expect(200);
@@ -247,11 +247,41 @@ describe("/api", () => {
       return request(app)
       .get("/api/project/4444/records")
       .expect(400).then((response) => {
-        console.log(response.body);
         expect(response.body.msg).toBe("Project not found")
       });
     })
   });
+
+  // Get all records from a project number
+  describe("/api/records/:project_number", () => {
+    it("INVALID METHODS - Should return method not allowed", () => {
+      const methods = ["del", "post", "patch", "put"];
+      const promises = methods.map((method) => {
+        return request(app)
+          [method]("/api/records/111111-11")
+          .expect(405)
+          .then(({ body: { msg } }) => {
+            expect(msg).toEqual("Method not allowed.");
+          });
+      });
+      return Promise.all(promises);
+    });
+    it("GET 200 - Returns 200 response from server", () => {
+      return request(app).get("/api/records/111111-11").expect(200);
+    });
+    it("GET 200 - Should return an object", () => {
+      return request(app)
+        .get("/api/records/1")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body).toEqual(
+            expect.objectContaining({ records: expect.any(Array) })
+          );
+        });
+    });
+  });
+
+
 });
 
 
