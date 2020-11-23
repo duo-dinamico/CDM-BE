@@ -25,6 +25,16 @@ describe("/api", () => {
     return request(app).get("/api").expect(200);
   });
 
+  // No existing route
+  it("GET 400 - Responds with 400 if the path is incorrect", () => {
+    return request(app)
+      .get("/api/potato")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Path does not exist.");
+      });
+  });
+
   describe("/api/projects", () => {
     it("INVALID METHODS - Should return method not allowed", () => {
       const methods = ["del", "post", "patch", "put"];
@@ -51,9 +61,11 @@ describe("/api", () => {
           );
         });
     });
+
+    // No existing route in projects
     it("GET 400 - Responds with 400 if the path is incorrect", () => {
       return request(app)
-        .get("/api/potato")
+        .get("/api/projects/potato")
         .expect(400)
         .then(({ body }) => {
           expect(body.msg).toBe("Path does not exist.");
@@ -61,6 +73,9 @@ describe("/api", () => {
     });
   });
 
+  //
+  // PROJECT
+  //
   describe("/api/project/project_number", () => {
     it("GET 200 - Returns 200 response from server", () => {
       return request(app).get("/api/project/111111-11").expect(200);
@@ -281,6 +296,67 @@ describe("/api", () => {
     });
   });
 
+  //
+  // RECORD
+  //
+  describe("/api/record/:record_id", () => {
+    it("GET 200 - Returns 200 response from server", () => {
+      return request(app).get("/api/record/1").expect(200);
+    });
+    it("GET 200 - Should return an object", () => {
+      return request(app)
+        .get("/api/record/1")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body).toEqual(
+            expect.objectContaining({
+              record: expect.arrayContaining([expect.any(Object)]),
+            })
+          );
+        });
+    });
+    it("GET 400 - Should return error if record id is not a number", () => {
+      return request(app)
+        .get("/api/record/aa")
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toEqual("Record ID need to be a number");
+        });
+    });
+    it("GET 400 - Should return error for non existing record", () => {
+      return request(app)
+        .get("/api/record/123")
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toEqual("Record not found");
+        });
+    });
+
+    it.only("DELETE 200 - Should return a text", () => {
+      return request(app)
+        .del("/api/record/4")
+        .expect(204);
+    });
+
+    it("DELETE 400 - Should return an error text if record_id don't exist ", () => {
+      return request(app)
+        .get("/api/record/123")
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toEqual("Record not found");
+        });
+    });
+
+    it("DELETE 400 - Should return an error text if record_id is not a number", () => {
+      return request(app)
+        .get("/api/record/aaa")
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toEqual("Record ID need to be a number");
+        });
+    });
+
+  });
 
 });
 
