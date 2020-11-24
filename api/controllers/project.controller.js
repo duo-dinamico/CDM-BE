@@ -71,7 +71,8 @@ exports.getRecordByRecordId = (req, res, next) => {
 };
 
 exports.getAllRisks = (req, res, next) => {
-  fetchAllRisks()
+  const { project_number } = req.params;
+  fetchAllRisks(project_number)
     .then((risks) => {
       res.status(200).send({ risks });
     })

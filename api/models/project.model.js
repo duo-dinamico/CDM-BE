@@ -106,8 +106,10 @@ exports.fetchRecordByProject = (project_number) => {
 
 exports.fetchRecordByRecordId = (params) => {
   return connection("record_issues")
-    .where("project_number", params.project_number)
-    .where("record_id", params.record_id)
+    .where({
+      project_number: params.project_number,
+      record_id: params.record_id,
+    })
     .then((response) => {
       if (response.length < 1) {
         return Promise.reject({ status: 400, msg: "Project not found" });
@@ -117,6 +119,18 @@ exports.fetchRecordByRecordId = (params) => {
     });
 };
 
-exports.fetchAllRisks = () => {
-  return connection("register").select();
+exports.fetchAllRisks = (project_number) => {
+  return connection("register")
+    .select()
+    .where("project_number", project_number)
+    .then((response) => {
+      if (response.length < 1) {
+        return Promise.reject({
+          status: 400,
+          msg: "Project number doesn't exist",
+        });
+      } else {
+        return response;
+      }
+    });
 };
