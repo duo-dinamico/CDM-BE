@@ -94,25 +94,29 @@ exports.editProjectByNumber = ({
 
 exports.fetchRecordByProject = (project_number) => {
   return connection("record_issues")
-  .where("project_number", project_number["project_number"])
-  .then((response) => {
-    if (response.length < 1) {
-      return Promise.reject({ status: 400, msg: "Project not found" });
-    } else {
-      return response;
-    }
-  })
-}
+    .where("project_number", project_number["project_number"])
+    .then((response) => {
+      if (response.length < 1) {
+        return Promise.reject({ status: 400, msg: "Project not found" });
+      } else {
+        return response;
+      }
+    });
+};
 
 exports.fetchRecordByRecordId = (params) => {
   return connection("record_issues")
-  .where("project_number", params.project_number)
-  .where("record_id", params.record_id)
-  .then((response) => {
-    if (response.length < 1) {
-      return Promise.reject({ status: 400, msg: "Project not found" });
-    } else {
-      return response;
-    }
-  })
-}
+    .where("project_number", params.project_number)
+    .where("record_id", params.record_id)
+    .then((response) => {
+      if (response.length < 1) {
+        return Promise.reject({ status: 400, msg: "Project not found" });
+      } else {
+        return response;
+      }
+    });
+};
+
+exports.fetchAllRisks = () => {
+  return connection("register").select();
+};

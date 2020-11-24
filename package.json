@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "setup-dbs": "psql -f ./db/setup.sql",
-    "test": "jest --watch --verbose=false ./__tests__",
+    "test": "jest --watch --verbose=false",
     "mig-make": "knex migrate:make",
     "seed": "NODE_ENV=test knex seed:run",
     "start": "nodemon listen.js"

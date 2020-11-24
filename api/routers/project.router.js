@@ -5,8 +5,9 @@ const {
   delProjectByNumber,
   postProjectByNumber,
   patchProjectByNumber,
-  getRecordByProject
+  getRecordByProject,
 } = require("../controllers/project.controller");
+const registerRouter = require("./register.router");
 
 projectRouter
   .route("/")
@@ -22,5 +23,6 @@ projectRouter
   .route("/:project_number/records")
   .get(getRecordByProject)
   .all(errors405s);
+projectRouter.use("/:project_number/register", registerRouter);
 
 module.exports = projectRouter;
