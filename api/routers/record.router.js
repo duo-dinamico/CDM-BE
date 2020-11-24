@@ -3,8 +3,15 @@ const { errors405s } = require("../errors/");
 
 const { 
   getRecordById,
-  delRecordById
+  delRecordById,
+  postRecord
 } = require("../controllers/record.controller");
+
+recordRouter
+  .route("/")
+  .post(postRecord)
+  // .patch(patchRecord)
+  .all(errors405s);
 
 recordRouter
   .route("/:record_id")

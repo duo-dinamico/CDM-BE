@@ -332,7 +332,7 @@ describe("/api", () => {
         });
     });
 
-    it.only("DELETE 200 - Should return a text", () => {
+    it("DELETE 200 - Should return a text", () => {
       return request(app)
         .del("/api/record/4")
         .expect(204);
@@ -353,6 +353,80 @@ describe("/api", () => {
         .expect(400)
         .then(({ body: { msg } }) => {
           expect(msg).toEqual("Record ID need to be a number");
+        });
+    });
+
+    it("POST 201 - Should be able to post a record", () => {
+      return request(app)
+        .post("/api/record")
+        .send({
+          project_number: "111111-11",
+          version_number: "67",
+          stage_issued: "Construction",
+          purpose: "INFORMATION",
+          date: "2021-07-12",
+          prepared: "JCS",
+          checked: "JCS",
+          approved: "GREAT",
+          remarks: "among other problems, and others",
+        })
+        .expect(201)
+        .then(({ body }) => {
+          expect(body).toEqual(
+            expect.objectContaining({
+              record: expect.objectContaining({
+                record_id: 6,
+                project_number: "111111-11",
+                version_number: expect.any(String),
+                stage_issued: expect.any(String),
+                purpose: expect.any(String),
+                date: expect.any(String),
+                prepared: expect.any(String),
+                checked: expect.any(String),
+                approved: expect.any(String),
+                remarks: expect.any(String),
+              })
+            })
+          );
+        });
+    });
+
+    it("POST 400 - Should return error if project_numer don't exist", () => {
+      return request(app)
+        .post("/api/record")
+        .send({
+          project_number: "111111-134",
+          version_number: "67",
+          stage_issued: "Construction",
+          purpose: "INFORMATION",
+          date: "2021-07-12",
+          prepared: "JCS",
+          checked: "JCS",
+          approved: "GREAT",
+          remarks: "among other problems, and others",
+        })
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toEqual("Project number don't exist");
+        });
+    });
+
+    it("POST 400 - Should return error if missing needed parameter", () => {
+      return request(app)
+        .post("/api/record")
+        .send({
+          project_number: "111111-11",
+          version_number: "67",
+          stage_issued: "Construction",
+          date: "2021-07-12",
+          prepared: "JCS",
+          checked: "JCS",
+          approved: "GREAT",
+          remarks: "among other problems, and others",
+        })
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toEqual("Column purpose cannot be empty.");
         });
     });
 
