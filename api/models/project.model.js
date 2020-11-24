@@ -119,6 +119,23 @@ exports.fetchRecordByRecordId = (params) => {
     });
 };
 
+exports.fetchOneRecordByProject = (params) => {
+  return connection("record_issues")
+    .where({
+      "project_number": params.project_number,
+      "version_number": params.version
+    })
+    .then((response) => {
+      console.log(response);
+      if (response.length < 1) {
+        return Promise.reject({ status: 400, msg: "Project not found" });
+      } else {
+        return response;
+      }
+    });
+};
+
+
 exports.fetchAllRisks = (project_number) => {
   return connection("register")
     .select()
