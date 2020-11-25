@@ -4,6 +4,9 @@ const {
   createProjectByNumber,
   editProjectByNumber,
   fetchRecordByProject,
+  fetchOneRecordByProject,
+  fetchRecordByRecordNumber,
+  deleteOneRecordFromProject,
   fetchAllRisks,
   fetchRiskByNumber,
   editRiskByNumber,
@@ -63,6 +66,26 @@ exports.getRecordByProject = (req, res, next) => {
 
 exports.getRecordByRecordId = (req, res, next) => {
   fetchRecordByRecordId(req.params)
+    .then((record) => {
+      res.status(200).send(record);
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.getOneRecordByProject = (req, res, next) => {
+  fetchOneRecordByProject(req.params)
+    .then((record) => {
+      res.status(200).send(record);
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.delOneRecord = (req, res, next) => {
+  deleteOneRecordFromProject(req.params)
     .then((record) => {
       res.status(200).send(record);
     })

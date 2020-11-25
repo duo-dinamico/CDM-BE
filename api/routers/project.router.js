@@ -6,6 +6,8 @@ const {
   postProjectByNumber,
   patchProjectByNumber,
   getRecordByProject,
+  getOneRecordByProject,
+  delOneRecord,
   getAllRisks,
   getRiskByNumber,
   patchRiskByNumber,
@@ -22,7 +24,7 @@ projectRouter
   .delete(delProjectByNumber)
   .all(errors405s);
 projectRouter
-  .route("/:project_number/records/:var-:var-:var")
+  .route("/:project_number/records")
   .get(getRecordByProject)
   .all(errors405s);
 projectRouter
@@ -33,5 +35,13 @@ projectRouter
   .route("/:project_number/register/:discipline-:stage-:number")
   .get(getRiskByNumber)
   .patch(patchRiskByNumber);
+
+projectRouter
+  .route("/:project_number/record/:version")
+  .get(getOneRecordByProject)
+  .delete(delOneRecord)
+  .all(errors405s);
+
+projectRouter.route("/:project_number/register").get(getAllRisks);
 
 module.exports = projectRouter;

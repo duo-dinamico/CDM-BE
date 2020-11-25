@@ -119,6 +119,40 @@ exports.fetchRecordByRecordId = (params) => {
     });
 };
 
+exports.fetchOneRecordByProject = (params) => {
+  return connection("record_issues")
+    .where({
+      "project_number": params.project_number,
+      "version_number": params.version
+    })
+    .then((response) => {
+      if (response.length < 1) {
+        return Promise.reject({ status: 400, msg: "Record not found" });
+      } else {
+        return response;
+      }
+    });
+};
+
+exports.deleteOneRecordFromProject = (params) => {
+  return connection("record_issues")
+    .where({
+      "project_number": params.project_number,
+      "version_number": params.version
+    })
+    .then((response) => {
+      if (response.length < 1) {
+        return Promise.reject({ status: 400, msg: "Record not found" });
+      } else {
+        return connection("record_issues")
+          .where({
+            "project_number": params.project_number,
+            "version_number": params.version
+          }).del().returning('record_id');
+      };
+    });
+};
+
 exports.fetchAllRisks = (project_number) => {
   return connection("register")
     .select()

@@ -267,6 +267,51 @@ describe("/api", () => {
     })
   });
 
+  // Get One Record by project_number
+  describe("/api/project/:project_number/record/:version", () => {
+    it("GET 200 - Returns 200 response from server", () => {
+      return request(app).get("/api/project/111111-11/record/34").expect(200);
+    });
+    it("GET 200 - Should return an object", () => {
+      return request(app)
+        .get("/api/project/111111-11/record/34")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body).toEqual(expect.arrayContaining([expect.any(Object)]));
+        });
+    });
+    it("GET 400 - if non existing project number", () => {
+      return request(app)
+      .get("/api/project/4444/record/34")
+      .expect(400).then((response) => {
+        expect(response.body.msg).toBe("Record not found")
+      });
+    })
+  });
+
+
+  // Delete One Record by project_number
+  describe("/api/project/:project_number/record/:version", () => {
+    it("DEL 200 - Returns 200 response from server", () => {
+      return request(app).del("/api/project/111111-11/record/34").expect(200);
+    });
+    it("DEL 400 - if non existing project number", () => {
+      return request(app)
+      .del("/api/project/4444/record/1")
+      .expect(400).then((response) => {
+        expect(response.body.msg).toBe("Record not found")
+      });
+    });
+    it("DEL 400 - if non existing version", () => {
+      return request(app)
+      .del("/api/project/111111-11/record/58")
+      .expect(400).then((response) => {
+        expect(response.body.msg).toBe("Record not found")
+      });
+    });
+  });
+
+
   // Get all records from a project number
   describe("/api/records/:project_number", () => {
     it("INVALID METHODS - Should return method not allowed", () => {
