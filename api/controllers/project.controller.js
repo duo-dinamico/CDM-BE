@@ -4,8 +4,9 @@ const {
   createProjectByNumber,
   editProjectByNumber,
   fetchRecordByProject,
-  fetchRecordByRecordNumber,
   fetchAllRisks,
+  fetchRiskByNumber,
+  editRiskByNumber,
 } = require("../models/project.model");
 
 exports.getProjectByNumber = (req, res, next) => {
@@ -75,6 +76,26 @@ exports.getAllRisks = (req, res, next) => {
   fetchAllRisks(project_number)
     .then((risks) => {
       res.status(200).send({ risks });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.getRiskByNumber = (req, res, next) => {
+  fetchRiskByNumber(req.params)
+    .then((risk) => {
+      res.status(200).send({ risk });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.patchRiskByNumber = (req, res, next) => {
+  editRiskByNumber(req.body, req.params)
+    .then((risk) => {
+      res.status(200).send({ risk });
     })
     .catch((err) => {
       next(err);

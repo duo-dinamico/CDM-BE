@@ -134,3 +134,61 @@ exports.fetchAllRisks = (project_number) => {
       }
     });
 };
+
+exports.fetchRiskByNumber = ({ project_number, discipline, stage, number }) => {
+  return connection("register")
+    .select()
+    .where({ project_number })
+    .then((response) => {
+      if (response.length < 1) {
+        return Promise.reject({
+          status: 400,
+          msg: "Project number is incorrect.",
+        });
+      }
+    })
+    .then((project) => {
+      return connection("register")
+        .select()
+        .where({ discipline, project_lifecycle_stage: stage })
+        .then((response) => {
+          if (response.length < Number(number)) {
+            return Promise.reject({ status: 400, msg: "Risk does not exist." });
+          } else {
+            return response[Number(number) - 1];
+          }
+        });
+    });
+};
+
+exports.editRiskByNumber = (
+  body,
+  { project_number, discipline, stage, number }
+) => {
+  return connection("register")
+    .select()
+    .where({ project_number })
+    .then((response) => {
+      if (response.length < 1) {
+        return Promise.reject({
+          status: 400,
+          msg: "Project number is incorrect.",
+        });
+      }
+    })
+    .then((project) => {
+      return connection("register")
+        .select()
+        .where({ discipline, project_lifecycle_stage: stage })
+        .then((response) => {
+          if (response.length < Number(number)) {
+            return Promise.reject({
+              status: 400,
+              msg: "Risk does not exist.",
+            });
+          } else {
+            return response[Number(number) - 1];
+          }
+        });
+    });
+};

@@ -7,6 +7,8 @@ const {
   patchProjectByNumber,
   getRecordByProject,
   getAllRisks,
+  getRiskByNumber,
+  patchRiskByNumber,
 } = require("../controllers/project.controller");
 
 projectRouter
@@ -23,6 +25,13 @@ projectRouter
   .route("/:project_number/records/:var-:var-:var")
   .get(getRecordByProject)
   .all(errors405s);
-projectRouter.route("/:project_number/register").get(getAllRisks);
+projectRouter
+  .route("/:project_number/register")
+  .get(getAllRisks)
+  .all(errors405s);
+projectRouter
+  .route("/:project_number/register/:discipline-:stage-:number")
+  .get(getRiskByNumber)
+  .patch(patchRiskByNumber);
 
 module.exports = projectRouter;
