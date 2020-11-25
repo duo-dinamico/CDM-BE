@@ -6,6 +6,7 @@ const {
   fetchRecordByProject,
   fetchOneRecordByProject,
   fetchRecordByRecordNumber,
+  deleteOneRecordFromProject,
   fetchAllRisks,
 } = require("../models/project.model");
 
@@ -73,6 +74,16 @@ exports.getRecordByRecordId = (req, res, next) => {
 
 exports.getOneRecordByProject = (req, res, next) => {
   fetchOneRecordByProject(req.params)
+    .then((record) => {
+      res.status(200).send(record);
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.delOneRecord = (req, res, next) => {
+  deleteOneRecordFromProject(req.params)
     .then((record) => {
       res.status(200).send(record);
     })
