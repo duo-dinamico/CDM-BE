@@ -8,6 +8,7 @@ const {
   fetchRecordByRecordNumber,
   deleteOneRecordFromProject,
   insertOneRecordFromProject,
+  updateOneRecordFromProject,
   fetchAllRisks,
   fetchRiskByNumber,
   editRiskByNumber,
@@ -97,6 +98,16 @@ exports.delOneRecord = (req, res, next) => {
 
 exports.postOneRecord = (req, res, next) => {
   insertOneRecordFromProject(req.body, req.params)
+    .then((record) => {
+      res.status(201).send(record);
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.patchOneRecord = (req, res, next) => {
+  updateOneRecordFromProject(req.body, req.params)
     .then((record) => {
       res.status(201).send(record);
     })

@@ -9,6 +9,7 @@ const {
   getOneRecordByProject,
   delOneRecord,
   postOneRecord,
+  patchOneRecord,
   getAllRisks,
   getRiskByNumber,
   patchRiskByNumber,
@@ -46,6 +47,7 @@ projectRouter
   .route("/:project_number/record/:version")
   .get(getOneRecordByProject)
   .delete(delOneRecord)
+  .patch(patchOneRecord)
   .all(errors405s);
 
 projectRouter.route("/:project_number/register").get(getAllRisks);
