@@ -12,6 +12,7 @@ const {
   fetchAllRisks,
   fetchRiskByNumber,
   editRiskByNumber,
+  deleteRiskByNumber,
 } = require("../models/project.model");
 
 exports.getProjectByNumber = (req, res, next) => {
@@ -139,6 +140,16 @@ exports.getRiskByNumber = (req, res, next) => {
 
 exports.patchRiskByNumber = (req, res, next) => {
   editRiskByNumber(req.body, req.params)
+    .then((risk) => {
+      res.status(200).send({ risk: risk[0] });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.delRiskByNumber = (req, res, next) => {
+  deleteRiskByNumber(req.params)
     .then((risk) => {
       res.status(200).send({ risk: risk[0] });
     })

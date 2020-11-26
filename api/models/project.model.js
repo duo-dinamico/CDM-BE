@@ -313,3 +313,43 @@ exports.editRiskByNumber = (
         });
     });
 };
+
+exports.deleteRiskByNumber = ({
+  project_number,
+  discipline,
+  stage,
+  number,
+}) => {
+  if (Number(number) < 1) {
+    return Promise.reject({
+      status: 400,
+      msg: "Risk number cannot be zero.",
+    });
+  }
+  return connection("register")
+    .where({ project_number })
+    .then((response) => {
+      if (response.length < 1) {
+        return Promise.reject({
+          status: 400,
+          msg: "Project number is incorrect.",
+        });
+      } else {
+        return undefined;
+      }
+    })
+    .then(() => {
+      return connection("register")
+        .where({ project_number, discipline, project_lifecycle_stage: stage })
+        .orderBy("register_id")
+        .then((response) => {
+          if (response.length < Number(number)) {
+            return Promise.reject({ status: 400, msg: "Risk does not exist." });
+          } else {
+            return connection("register")
+              .where("register_id", response[Number(number) - 1].register_id)
+              .del();
+          }
+        });
+    });
+};
