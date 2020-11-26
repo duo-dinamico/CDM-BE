@@ -168,7 +168,6 @@ exports.insertOneRecordFromProject = (body, params) => {
         for (let x of record) {
           // Check if version already exist
           if (x.version_number == body.version_number) {
-            console.log("True");
             return Promise.reject({
               status: 400,
               msg: "Version already exist.",
@@ -176,16 +175,47 @@ exports.insertOneRecordFromProject = (body, params) => {
           }
         }
 
-
-
-
-
-        
         // Add project_number from params to the body
         body.project_number = params.project_number;
 
         // Insert 'body' in the database
         return connection("record_issues").insert(body, ["*"]);
+      }
+    });
+};
+
+exports.updateOneRecordFromProject = (body, params) => {
+  return connection("record_issues")
+    .where({
+      project_number: params.project_number,
+    })
+    .then((record) => {
+      if (record.length < 1) {
+        return Promise.reject({ status: 400, msg: "Project not found." });
+      } else {
+        // Loop all records with project_number
+        for (let x of record) {
+          // Check if version exist
+          if (x.version_number == params.version) {
+            // Add project_number and version from params to the body
+            body.project_number = params.project_number;
+            body.version_number = params.version;
+
+            // Update record with new 'body' in the database
+            return connection("record_issues")
+              .where({
+                project_number: params.project_number,
+                version_number: params.version,
+              })
+              .update(body, ["*"]);
+          }
+        }
+
+        // Version not found in the loop
+        return Promise.reject({
+          status: 400,
+          msg: "Version not found.",
+        });
       }
     });
 };

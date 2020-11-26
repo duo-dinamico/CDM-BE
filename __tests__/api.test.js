@@ -352,6 +352,62 @@ describe("/api", () => {
     });
   });
 
+  // Update Record to existing project
+  describe("/api/project/:project_number/record/:version", () => {
+    it("PATCH 201 - Should return an updated record", () => {
+      return request(app)
+        .patch("/api/project/111111-11/record/69")
+        .send({
+          stage_issued: "Construction",
+          purpose: "INFORMATION",
+          date: "2021-07-12",
+          prepared: "JCS2",
+          checked: "JCS2",
+          approved: "THE GREAT",
+          remarks:
+            "among other problems, and others, this is a POST test, and has been rectified.",
+        })
+        .expect(201)
+        .then(({ body }) => {
+          expect(body).toEqual(expect.arrayContaining([expect.any(Object)]));
+        });
+    });
+    it("PATCH 400 - if non existing project number", () => {
+      return request(app)
+        .patch("/api/project/4444/record/69")
+        .send({
+          stage_issued: "Construction",
+          purpose: "INFORMATION",
+          date: "2021-07-12",
+          prepared: "JCS",
+          checked: "JCS",
+          approved: "GREAT",
+          remarks: "among other problems, and others, this is a POST test.",
+        })
+        .expect(400)
+        .then((response) => {
+          expect(response.body.msg).toBe("Project not found.");
+        });
+    });
+    it("PATCH 400 - if non existing record version", () => {
+      return request(app)
+        .patch("/api/project/111111-11/record/234")
+        .send({
+          stage_issued: "Construction",
+          purpose: "INFORMATION",
+          date: "2021-07-12",
+          prepared: "JCS",
+          checked: "JCS",
+          approved: "GREAT",
+          remarks: "among other problems, and others, this is a POST test.",
+        })
+        .expect(400)
+        .then((response) => {
+          expect(response.body.msg).toBe("Version not found.");
+        });
+    });
+  });
+
   // Delete One Record by project_number
   describe("/api/project/:project_number/record/:version", () => {
     it("DEL 200 - Returns 200 response from server", () => {
