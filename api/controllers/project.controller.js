@@ -118,7 +118,7 @@ exports.getRiskByNumber = (req, res, next) => {
 exports.patchRiskByNumber = (req, res, next) => {
   editRiskByNumber(req.body, req.params)
     .then((risk) => {
-      res.status(200).send({ risk });
+      res.status(200).send({ risk: risk[0] });
     })
     .catch((err) => {
       next(err);

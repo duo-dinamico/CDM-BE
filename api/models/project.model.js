@@ -122,8 +122,8 @@ exports.fetchRecordByRecordId = (params) => {
 exports.fetchOneRecordByProject = (params) => {
   return connection("record_issues")
     .where({
-      "project_number": params.project_number,
-      "version_number": params.version
+      project_number: params.project_number,
+      version_number: params.version,
     })
     .then((response) => {
       if (response.length < 1) {
@@ -137,8 +137,8 @@ exports.fetchOneRecordByProject = (params) => {
 exports.deleteOneRecordFromProject = (params) => {
   return connection("record_issues")
     .where({
-      "project_number": params.project_number,
-      "version_number": params.version
+      project_number: params.project_number,
+      version_number: params.version,
     })
     .then((response) => {
       if (response.length < 1) {
@@ -146,10 +146,12 @@ exports.deleteOneRecordFromProject = (params) => {
       } else {
         return connection("record_issues")
           .where({
-            "project_number": params.project_number,
-            "version_number": params.version
-          }).del().returning('record_id');
-      };
+            project_number: params.project_number,
+            version_number: params.version,
+          })
+          .del()
+          .returning("record_id");
+      }
     });
 };
 
@@ -179,12 +181,14 @@ exports.fetchRiskByNumber = ({ project_number, discipline, stage, number }) => {
           status: 400,
           msg: "Project number is incorrect.",
         });
+      } else {
+        return undefined;
       }
     })
-    .then((project) => {
+    .then(() => {
       return connection("register")
         .select()
-        .where({ discipline, project_lifecycle_stage: stage })
+        .where({ project_number, discipline, project_lifecycle_stage: stage })
         .then((response) => {
           if (response.length < Number(number)) {
             return Promise.reject({ status: 400, msg: "Risk does not exist." });
@@ -210,10 +214,10 @@ exports.editRiskByNumber = (
         });
       }
     })
-    .then((project) => {
+    .then(() => {
       return connection("register")
         .select()
-        .where({ discipline, project_lifecycle_stage: stage })
+        .where({ project_number, discipline, project_lifecycle_stage: stage })
         .then((response) => {
           if (response.length < Number(number)) {
             return Promise.reject({
@@ -221,7 +225,13 @@ exports.editRiskByNumber = (
               msg: "Risk does not exist.",
             });
           } else {
-            return response[Number(number) - 1];
+            for (let i = 0; i < response.length; i++) {
+              if (i === Number(number) - 1) {
+                return connection("register")
+                  .where("register_id", response[i].register_id)
+                  .update(body, ["*"]);
+              }
+            }
           }
         });
     });

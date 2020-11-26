@@ -15,7 +15,8 @@ module.exports = [
     severity: 4,
     relevant_documentation: "JLR / Golders Information",
     owner_of_risk: "Client / Golders",
-    mitigation_action: "The team have liaised with Golders Associates (client retained contamination consultant) to ascertain all known information about the site contamination, and the remediation process currently being undertaken.",
+    mitigation_action:
+      "The team have liaised with Golders Associates (client retained contamination consultant) to ascertain all known information about the site contamination, and the remediation process currently being undertaken.",
     likelihood_mitigated: 4,
     severity_mitigation: 4,
     further_action_required: true,
@@ -25,7 +26,8 @@ module.exports = [
   {
     project_number: "111111-11",
     register_id: 2,
-    description: "Plant Replacement - To replace major plant components on the Rotating Test Wings and PTCD Test roofs that will require craneage. Danger of injury during removal.",
+    description:
+      "Plant Replacement - To replace major plant components on the Rotating Test Wings and PTCD Test roofs that will require craneage. Danger of injury during removal.",
     risk_status: "CONTINUED",
     discipline: "M&E",
     revision: "0",
@@ -38,7 +40,8 @@ module.exports = [
     severity: 5,
     relevant_documentation: "N/A",
     owner_of_risk: "Arup / Contractor",
-    mitigation_action: "Feasibility building concept had a square shape building that didn’t offer excellent provision for craneage. The stage 2 has developed the building from a square building to a wing shape that offers improved access for plant removal and craneage.",
+    mitigation_action:
+      "Feasibility building concept had a square shape building that didn’t offer excellent provision for craneage. The stage 2 has developed the building from a square building to a wing shape that offers improved access for plant removal and craneage.",
     likelihood_mitigated: 2,
     severity_mitigation: 5,
     further_action_required: true,
@@ -48,7 +51,8 @@ module.exports = [
   {
     project_number: "111111-11",
     register_id: 3,
-    description: "Plant Replacement - To replace major plant components on the Rotating Test Wings and PTCD Test roofs that will require craneage. Danger of injury during removal.",
+    description:
+      "Plant Replacement - To replace major plant components on the Rotating Test Wings and PTCD Test roofs that will require craneage. Danger of injury during removal.",
     risk_status: "CONTINUED",
     discipline: "M&E",
     revision: "0",
@@ -61,7 +65,8 @@ module.exports = [
     severity: 5,
     relevant_documentation: "N/A",
     owner_of_risk: "Arup / Contractor",
-    mitigation_action: "Feasibility building concept had a square shape building that didn’t offer excellent provision for craneage. The stage 2 has developed the building from a square building to a wing shape that offers improved access for plant removal and craneage.",
+    mitigation_action:
+      "Feasibility building concept had a square shape building that didn’t offer excellent provision for craneage. The stage 2 has developed the building from a square building to a wing shape that offers improved access for plant removal and craneage.",
     likelihood_mitigated: 2,
     severity_mitigation: 5,
     further_action_required: true,
@@ -71,7 +76,8 @@ module.exports = [
   {
     project_number: "111111-22",
     register_id: 4,
-    description: "Danger of falling from height during installation and cleaning / maintenance.",
+    description:
+      "Danger of falling from height during installation and cleaning / maintenance.",
     risk_status: "ACTIVE",
     discipline: "M&E",
     revision: "0",
@@ -84,7 +90,8 @@ module.exports = [
     severity: 5,
     relevant_documentation: "N/A",
     owner_of_risk: "Contractor",
-    mitigation_action: "Off-site pre-fabricated modules will be preferred to reduce the time working at height is required.",
+    mitigation_action:
+      "Off-site pre-fabricated modules will be preferred to reduce the time working at height is required.",
     likelihood_mitigated: 4,
     severity_mitigation: 5,
     further_action_required: true,
@@ -94,7 +101,8 @@ module.exports = [
   {
     project_number: "111111-22",
     register_id: 5,
-    description: "Manual Handling of Switchgear, Switchboards – High centre of gravity can make the load unstable when manoeuvring. Danger of installers getting injured by falling equipment ",
+    description:
+      "Manual Handling of Switchgear, Switchboards – High centre of gravity can make the load unstable when manoeuvring. Danger of installers getting injured by falling equipment ",
     risk_status: "CONTINUED",
     discipline: "M&E",
     revision: "0",
@@ -107,7 +115,8 @@ module.exports = [
     severity: 5,
     relevant_documentation: "N/A",
     owner_of_risk: "Contractor",
-    mitigation_action: "Contractor to ensure equipment is handled in a safe manner in accordance with the manufacturers instructions.",
+    mitigation_action:
+      "Contractor to ensure equipment is handled in a safe manner in accordance with the manufacturers instructions.",
     likelihood_mitigated: 2,
     severity_mitigation: 4,
     further_action_required: false,
@@ -117,7 +126,8 @@ module.exports = [
   {
     project_number: "111111-22",
     register_id: 6,
-    description: "Working in close proximity to high voltage cable installations and HV/LV switchgear. Danger of risk to life through electrocution ",
+    description:
+      "Working in close proximity to high voltage cable installations and HV/LV switchgear. Danger of risk to life through electrocution ",
     risk_status: "CONTINUED",
     discipline: "ELEC",
     revision: "1",
@@ -130,7 +140,8 @@ module.exports = [
     severity: 5,
     relevant_documentation: "N/A",
     owner_of_risk: "Client",
-    mitigation_action: "Contractor to provide method statement for safe working. Warning notices to be provided and access restricted to HV/LV equipment and installations. Permit to work system to be implemented by the Contractor and Client.  Appropriate training and skilled operatives to be provided. Particular attention should given to the phasing site works and the protection  and routing of HV cables through unfinished building. ",
+    mitigation_action:
+      "Contractor to provide method statement for safe working. Warning notices to be provided and access restricted to HV/LV equipment and installations. Permit to work system to be implemented by the Contractor and Client.  Appropriate training and skilled operatives to be provided. Particular attention should given to the phasing site works and the protection  and routing of HV cables through unfinished building. ",
     likelihood_mitigated: 2,
     severity_mitigation: 5,
     further_action_required: true,
@@ -153,7 +164,8 @@ module.exports = [
     severity: 5,
     relevant_documentation: "N/A",
     owner_of_risk: "Contractor / Client",
-    mitigation_action: "Attenuation basins  may be required and are likely to > 2m deep. Water will be up to 2m deep during extreme events (very low water levels most of the time). Reasonable protection measures to be incorporated e.g. by fencing or landscaping",
+    mitigation_action:
+      "Attenuation basins  may be required and are likely to > 2m deep. Water will be up to 2m deep during extreme events (very low water levels most of the time). Reasonable protection measures to be incorporated e.g. by fencing or landscaping",
     likelihood_mitigated: 2,
     severity_mitigation: 5,
     further_action_required: false,
@@ -163,7 +175,8 @@ module.exports = [
   {
     project_number: "111111-33",
     register_id: 8,
-    description: "Roof mounted services distribution routes mounted on appropriate roof structure",
+    description:
+      "Roof mounted services distribution routes mounted on appropriate roof structure",
     risk_status: "CONTINUED",
     discipline: "STR",
     revision: "0",
@@ -176,7 +189,8 @@ module.exports = [
     severity: 2,
     relevant_documentation: "N/A",
     owner_of_risk: "Design Team / Contractor",
-    mitigation_action: "Structural Engineer to review building services loads and design for heavy concentations of loading were required.",
+    mitigation_action:
+      "Structural Engineer to review building services loads and design for heavy concentations of loading were required.",
     likelihood_mitigated: 1,
     severity_mitigation: 4,
     further_action_required: true,
@@ -186,7 +200,8 @@ module.exports = [
   {
     project_number: "111111-33",
     register_id: 9,
-    description: "HV Switchrooms:  Malicious activation of switchgear to disrupt the Client's business",
+    description:
+      "HV Switchrooms:  Malicious activation of switchgear to disrupt the Client's business",
     risk_status: "CONTINUED",
     discipline: "ELEC",
     revision: "0",
@@ -199,11 +214,37 @@ module.exports = [
     severity: 5,
     relevant_documentation: "N/A",
     owner_of_risk: "Client",
-    mitigation_action: "Access control required for the switchroom and HV section to mitigate non authorised personnel from entering",
+    mitigation_action:
+      "Access control required for the switchroom and HV section to mitigate non authorised personnel from entering",
     likelihood_mitigated: 1,
     severity_mitigation: 4,
     further_action_required: false,
     identified_by: "MA",
     date: "7-Jun-18",
-  }
+  },
+  {
+    project_number: "111111-33",
+    register_id: 10,
+    description:
+      "HV Switchrooms:  Malicious activation of switchgear to disrupt the Client's business",
+    risk_status: "CONTINUED",
+    discipline: "M&E",
+    revision: "0",
+    project_lifecycle_stage: "M",
+    hs_risk: false,
+    environmental_risk: false,
+    programme_risk: false,
+    other_risk: true,
+    likelihood: 2,
+    severity: 5,
+    relevant_documentation: "N/A",
+    owner_of_risk: "Client",
+    mitigation_action:
+      "Access control required for the switchroom and HV section to mitigate non authorised personnel from entering",
+    likelihood_mitigated: 1,
+    severity_mitigation: 4,
+    further_action_required: false,
+    identified_by: "MA",
+    date: "7-Jun-18",
+  },
 ];

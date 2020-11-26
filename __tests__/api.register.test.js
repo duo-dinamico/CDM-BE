@@ -82,14 +82,13 @@ describe("/api/project/:project_number/register", () => {
         .patch("/api/project/111111-11/register/M&E-M-001")
         .send({
           project_number: "111111-11",
-          register_id: 2,
           description:
             "Plant Replacement - To replace major plant components on the Rotating Test Wings and PTCD Test roofs that will require craneage. Danger of injury during removal.",
           risk_status: "CONTINUED",
           discipline: "M&E",
           revision: "0",
           project_lifecycle_stage: "M",
-          hs_risk: true,
+          hs_risk: false,
           environmental_risk: false,
           programme_risk: true,
           other_risk: false,
