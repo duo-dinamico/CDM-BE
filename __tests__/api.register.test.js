@@ -3,12 +3,12 @@ const request = require("supertest");
 const connection = require("../db/connection");
 
 describe("/api/project/:project_number/register", () => {
-  beforeAll(() => {
-    return connection.seed.run();
-  });
-  afterAll(() => {
-    return connection.destroy();
-  });
+  // beforeAll(() => {
+  //   return connection.seed.run();
+  // });
+  // afterAll(() => {
+  //   return connection.destroy();
+  // });
   it.skip("INVALID METHODS - Should return method not allowed", () => {
     const methods = ["post", "get"];
     const promises = methods.map((method) => {

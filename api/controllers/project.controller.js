@@ -7,6 +7,7 @@ const {
   fetchOneRecordByProject,
   fetchRecordByRecordNumber,
   deleteOneRecordFromProject,
+  insertOneRecordFromProject,
   fetchAllRisks,
   fetchRiskByNumber,
   editRiskByNumber,
@@ -88,6 +89,16 @@ exports.delOneRecord = (req, res, next) => {
   deleteOneRecordFromProject(req.params)
     .then((record) => {
       res.status(200).send(record);
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.postOneRecord = (req, res, next) => {
+  insertOneRecordFromProject(req.body, req.params)
+    .then((record) => {
+      res.status(201).send(record);
     })
     .catch((err) => {
       next(err);

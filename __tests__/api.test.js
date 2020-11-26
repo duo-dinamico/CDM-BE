@@ -260,11 +260,12 @@ describe("/api", () => {
     });
     it("GET 400 - if non existing project number", () => {
       return request(app)
-      .get("/api/project/4444/records")
-      .expect(400).then((response) => {
-        expect(response.body.msg).toBe("Project not found")
-      });
-    })
+        .get("/api/project/4444/records")
+        .expect(400)
+        .then((response) => {
+          expect(response.body.msg).toBe("Project not found");
+        });
+    });
   });
 
   // Get One Record by project_number
@@ -282,13 +283,74 @@ describe("/api", () => {
     });
     it("GET 400 - if non existing project number", () => {
       return request(app)
-      .get("/api/project/4444/record/34")
-      .expect(400).then((response) => {
-        expect(response.body.msg).toBe("Record not found")
-      });
-    })
+        .get("/api/project/4444/record/34")
+        .expect(400)
+        .then((response) => {
+          expect(response.body.msg).toBe("Record not found");
+        });
+    });
   });
 
+  // Add Record to existing project
+  describe("/api/project/:project_number/record", () => {
+    it("POST 201 - Should return an inserted record", () => {
+      return request(app)
+        .post("/api/project/111111-11/record")
+        .send({
+          // project_number: "111111-11",
+          version_number: "69",
+          stage_issued: "Construction",
+          purpose: "INFORMATION",
+          date: "2021-07-12",
+          prepared: "JCS",
+          checked: "JCS",
+          approved: "GREAT",
+          remarks: "among other problems, and others, this is a POST test.",
+        })
+        .expect(201)
+        .then(({ body }) => {
+          expect(body).toEqual(expect.arrayContaining([expect.any(Object)]));
+        });
+    });
+    it("POST 400 - if non existing project number", () => {
+      return request(app)
+        .post("/api/project/4444/record")
+        .send({
+          // project_number: "111111-11",
+          version_number: "69",
+          stage_issued: "Construction",
+          purpose: "INFORMATION",
+          date: "2021-07-12",
+          prepared: "JCS",
+          checked: "JCS",
+          approved: "GREAT",
+          remarks: "among other problems, and others, this is a POST test.",
+        })
+        .expect(400)
+        .then((response) => {
+          expect(response.body.msg).toBe("Project not found");
+        });
+    });
+    it("POST 400 - if already exist version for that project number", () => {
+      return request(app)
+        .post("/api/project/111111-11/record")
+        .send({
+          // project_number: "111111-11",
+          version_number: "69",
+          stage_issued: "Construction",
+          purpose: "INFORMATION",
+          date: "2021-07-12",
+          prepared: "JCS",
+          checked: "JCS",
+          approved: "GREAT",
+          remarks: "among other problems, and others, this is a POST test.",
+        })
+        .expect(400)
+        .then((response) => {
+          expect(response.body.msg).toBe("Version already exist.");
+        });
+    });
+  });
 
   // Delete One Record by project_number
   describe("/api/project/:project_number/record/:version", () => {
@@ -297,20 +359,21 @@ describe("/api", () => {
     });
     it("DEL 400 - if non existing project number", () => {
       return request(app)
-      .del("/api/project/4444/record/1")
-      .expect(400).then((response) => {
-        expect(response.body.msg).toBe("Record not found")
-      });
+        .del("/api/project/4444/record/1")
+        .expect(400)
+        .then((response) => {
+          expect(response.body.msg).toBe("Record not found");
+        });
     });
     it("DEL 400 - if non existing version", () => {
       return request(app)
-      .del("/api/project/111111-11/record/58")
-      .expect(400).then((response) => {
-        expect(response.body.msg).toBe("Record not found")
-      });
+        .del("/api/project/111111-11/record/58")
+        .expect(400)
+        .then((response) => {
+          expect(response.body.msg).toBe("Record not found");
+        });
     });
   });
-
 
   // Get all records from a project number
   describe("/api/records/:project_number", () => {
@@ -378,9 +441,7 @@ describe("/api", () => {
     });
 
     it("DELETE 200 - Should return a text", () => {
-      return request(app)
-        .del("/api/record/4")
-        .expect(204);
+      return request(app).del("/api/record/4").expect(204);
     });
 
     it("DELETE 400 - Should return an error text if record_id don't exist ", () => {
@@ -420,7 +481,7 @@ describe("/api", () => {
           expect(body).toEqual(
             expect.objectContaining({
               record: expect.objectContaining({
-                record_id: 6,
+                record_id: 7,
                 project_number: "111111-11",
                 version_number: expect.any(String),
                 stage_issued: expect.any(String),
@@ -430,7 +491,7 @@ describe("/api", () => {
                 checked: expect.any(String),
                 approved: expect.any(String),
                 remarks: expect.any(String),
-              })
+              }),
             })
           );
         });
@@ -474,11 +535,5 @@ describe("/api", () => {
           expect(msg).toEqual("Column purpose cannot be empty.");
         });
     });
-
   });
-
 });
-
-
-
-
