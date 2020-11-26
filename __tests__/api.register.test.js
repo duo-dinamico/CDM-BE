@@ -3,12 +3,13 @@ const request = require("supertest");
 const connection = require("../db/connection");
 
 describe("/api/project/:project_number/register", () => {
-  // beforeAll(() => {
-  //   return connection.seed.run();
-  // });
-  // afterAll(() => {
-  //   return connection.destroy();
-  // });
+  beforeAll(() => {
+    return connection.seed.run();
+  });
+  afterAll(() => {
+    return connection.destroy();
+  });
+  //METHOD
   it.skip("INVALID METHODS - Should return method not allowed", () => {
     const methods = ["post", "get"];
     const promises = methods.map((method) => {
@@ -21,6 +22,7 @@ describe("/api/project/:project_number/register", () => {
     });
     return Promise.all(promises);
   });
+  //GET
   it("GET 200 - Returns all registers from a project", () => {
     return request(app).get("/api/project/111111-11/register").expect(200);
   });
@@ -43,6 +45,8 @@ describe("/api/project/:project_number/register", () => {
       });
   });
   describe("/api/project/:project_number/register/:risk_number", () => {
+    //
+    //GET
     it('"GET 200 - Returns one risk from a project" ', () => {
       return request(app)
         .get("/api/project/111111-11/register/M&E-M-002")
@@ -77,7 +81,50 @@ describe("/api/project/:project_number/register", () => {
           expect(msg).toEqual("Risk does not exist.");
         });
     });
-    it("PATCH 200", () => {
+    it("GET 400 - Returns an error if the number used is 000", () => {
+      return request(app)
+        .get("/api/project/111111-11/register/M&E-M-000")
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toEqual("Risk number cannot be zero.");
+        });
+    });
+    //POST
+    it("GET 200 - Returns the added register", () => {
+      return request(app)
+        .post("/api/project/111111-11/register")
+        .send({
+          project_number: "111111-11",
+          description:
+            "Plant Replacement - To replace major plant components on the Rotating Test Wings and PTCD Test roofs that will require craneage. Danger of injury during removal.",
+          risk_status: "CONTINUED",
+          discipline: "M&E",
+          revision: "0",
+          project_lifecycle_stage: "M",
+          hs_risk: false,
+          environmental_risk: false,
+          programme_risk: true,
+          other_risk: false,
+          likelihood: 3,
+          severity: 5,
+          relevant_documentation: "N/A",
+          owner_of_risk: "Arup / Contractor",
+          mitigation_action:
+            "Feasibility building concept had a square shape building that didn’t offer excellent provision for craneage. The stage 2 has developed the building from a square building to a wing shape that offers improved access for plant removal and craneage.",
+          likelihood_mitigated: 2,
+          severity_mitigation: 5,
+          further_action_required: true,
+          identified_by: "PH",
+          date: "2018-09-13T23:00:00.000Z",
+        })
+        .expect(200)
+        .then(({ body }) => {
+          expect;
+        });
+    });
+
+    // PATCH
+    it("PATCH 200 - Returns the changed risk", () => {
       return request(app)
         .patch("/api/project/111111-11/register/M&E-M-001")
         .send({
@@ -104,6 +151,7 @@ describe("/api/project/:project_number/register", () => {
           identified_by: "PH",
           date: "2018-09-13T23:00:00.000Z",
         })
+        .expect(200)
         .then(({ body }) => {
           expect(body).toEqual(
             expect.objectContaining({
@@ -115,5 +163,43 @@ describe("/api/project/:project_number/register", () => {
           );
         });
     });
+    it("PATCH 400 - Returns error if the project doesn't exist", () => {
+      return request(app)
+        .patch("/api/project/111111-69/register/M&E-M-001")
+        .send({
+          project_number: "111111-11",
+          hs_risk: false,
+        })
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toEqual("Project number is incorrect.");
+        });
+    });
+    it("PATCH 400 - Returns error if the risk doesn't exist", () => {
+      return request(app)
+        .patch("/api/project/111111-11/register/M&E-M-050")
+        .send({
+          project_number: "111111-11",
+          hs_risk: false,
+        })
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toEqual("Risk does not exist.");
+        });
+    });
+    it("PATCH 400 - Returns error if number is 000", () => {
+      return request(app)
+        .patch("/api/project/111111-11/register/M&E-M-000")
+        .send({
+          project_number: "111111-11",
+          hs_risk: false,
+        })
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toEqual("Risk number cannot be zero.");
+        });
+    });
+    //DELETE
+    it("DELETE 200 - Delete a register", () => {});
   });
 });

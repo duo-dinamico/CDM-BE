@@ -176,11 +176,6 @@ exports.insertOneRecordFromProject = (body, params) => {
           }
         }
 
-
-
-
-
-        
         // Add project_number from params to the body
         body.project_number = params.project_number;
 
@@ -207,6 +202,12 @@ exports.fetchAllRisks = (project_number) => {
 };
 
 exports.fetchRiskByNumber = ({ project_number, discipline, stage, number }) => {
+  if (Number(number) < 1) {
+    return Promise.reject({
+      status: 400,
+      msg: "Risk number cannot be zero.",
+    });
+  }
   return connection("register")
     .select()
     .where({ project_number })
@@ -238,6 +239,12 @@ exports.editRiskByNumber = (
   body,
   { project_number, discipline, stage, number }
 ) => {
+  if (Number(number) < 1) {
+    return Promise.reject({
+      status: 400,
+      msg: "Risk number cannot be zero.",
+    });
+  }
   return connection("register")
     .select()
     .where({ project_number })
