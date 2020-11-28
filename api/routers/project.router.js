@@ -17,19 +17,17 @@ const {
   delRiskByNumber,
 } = require("../controllers/project.controller");
 
-projectRouter
-  .route("/")
-  .post(postProjectByNumber)
-  .patch(patchProjectByNumber)
-  .all(errors405s);
+projectRouter.route("/").post(postProjectByNumber).all(errors405s);
 projectRouter
   .route("/:project_number")
   .get(getProjectByNumber)
   .delete(delProjectByNumber)
+  .patch(patchProjectByNumber)
   .all(errors405s);
 projectRouter
   .route("/:project_number/records")
   .get(getRecordByProject)
+  .post(postOneRecord)
   .all(errors405s);
 projectRouter
   .route("/:project_number/register")
@@ -42,12 +40,6 @@ projectRouter
   .patch(patchRiskByNumber)
   .delete(delRiskByNumber)
   .all(errors405s);
-
-projectRouter
-  .route("/:project_number/record")
-  .post(postOneRecord)
-  .all(errors405s);
-
 projectRouter
   .route("/:project_number/record/:version")
   .get(getOneRecordByProject)

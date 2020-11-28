@@ -26,7 +26,7 @@ describe("/api/project/:project_number/register", () => {
   it("GET 200 - Returns all registers from a project", () => {
     return request(app).get("/api/project/111111-11/register").expect(200);
   });
-  it("GET 200 - Should return an object", () => {
+  it("GET 200 - Should return an object with an array of projects", () => {
     return request(app)
       .get("/api/project/111111-11/register")
       .expect(200)
@@ -34,6 +34,24 @@ describe("/api/project/:project_number/register", () => {
         expect(body).toEqual(
           expect.objectContaining({ risks: expect.any(Array) })
         );
+      });
+  });
+  it("GET 200 - Returns all registers from a project and allows queries", () => {
+    return request(app)
+      .get("/api/project/111111-11/register?risk_status=CONTINUED")
+      .expect(200)
+      .then(({ body: { risks } }) => {
+        for (const risk of risks) {
+          expect(risk.risk_status).toEqual("CONTINUED");
+        }
+      });
+  });
+  it("GET 400 - Returns error if value is incorrect", () => {
+    return request(app)
+      .get("/api/project/111111-11/register?risk_status=continued")
+      .expect(400)
+      .then(({ body: { msg } }) => {
+        expect(msg).toEqual("Risk does not exist");
       });
   });
   it("GET 400 - Should return error if project is not found", () => {
@@ -273,7 +291,6 @@ describe("/api/project/:project_number/register", () => {
           expect(msg).toEqual("Risk number cannot be zero.");
         });
     });
-
     //DELETE
     it("DEL 200 - Returns 200 response from server", () => {
       return request(app)

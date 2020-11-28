@@ -19,7 +19,7 @@ exports.getProjectByNumber = (req, res, next) => {
   const { project_number } = req.params;
   fetchProjectByNumber({ project_number })
     .then((project) => {
-      res.status(200).send({ project });
+      res.status(200).send({ project: project[0] });
     })
     .catch((err) => {
       next(err);
@@ -48,7 +48,8 @@ exports.postProjectByNumber = (req, res, next) => {
 };
 
 exports.patchProjectByNumber = (req, res, next) => {
-  editProjectByNumber(req.body)
+  const { project_number } = req.params;
+  editProjectByNumber(project_number, req.body)
     .then((editedProject) => {
       res.status(200).send({ project: editedProject[0] });
     })
@@ -58,9 +59,10 @@ exports.patchProjectByNumber = (req, res, next) => {
 };
 
 exports.getRecordByProject = (req, res, next) => {
-  fetchRecordByProject(req.params)
+  const { project_number } = req.params;
+  fetchRecordByProject(project_number, req.query)
     .then((records) => {
-      res.status(200).send(records);
+      res.status(200).send({ records });
     })
     .catch((err) => {
       next(err);
@@ -80,7 +82,7 @@ exports.getRecordByRecordId = (req, res, next) => {
 exports.getOneRecordByProject = (req, res, next) => {
   fetchOneRecordByProject(req.params)
     .then((record) => {
-      res.status(200).send(record);
+      res.status(200).send({ record: record[0] });
     })
     .catch((err) => {
       next(err);
@@ -100,7 +102,7 @@ exports.delOneRecord = (req, res, next) => {
 exports.postOneRecord = (req, res, next) => {
   insertOneRecordFromProject(req.body, req.params)
     .then((record) => {
-      res.status(201).send(record);
+      res.status(201).send({ record: record[0] });
     })
     .catch((err) => {
       next(err);
@@ -110,7 +112,7 @@ exports.postOneRecord = (req, res, next) => {
 exports.patchOneRecord = (req, res, next) => {
   updateOneRecordFromProject(req.body, req.params)
     .then((record) => {
-      res.status(201).send(record);
+      res.status(201).send({ record: record[0] });
     })
     .catch((err) => {
       next(err);
@@ -119,7 +121,7 @@ exports.patchOneRecord = (req, res, next) => {
 
 exports.getAllRisks = (req, res, next) => {
   const { project_number } = req.params;
-  fetchAllRisks(project_number)
+  fetchAllRisks(project_number, req.query)
     .then((risks) => {
       res.status(200).send({ risks });
     })

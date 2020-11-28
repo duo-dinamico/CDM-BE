@@ -51,13 +51,10 @@ exports.createProjectByNumber = ({
   );
 };
 
-exports.editProjectByNumber = ({
+exports.editProjectByNumber = (
   project_number,
-  project_title,
-  project_lead_office,
-  client,
-  stage,
-}) => {
+  { project_title, project_lead_office, client, stage }
+) => {
   if (project_number === undefined) {
     return Promise.reject({ status: 400, msg: "Project number missing." });
   } else {
@@ -92,9 +89,14 @@ exports.editProjectByNumber = ({
   }
 };
 
-exports.fetchRecordByProject = (project_number) => {
+exports.fetchRecordByProject = (project_number, filters) => {
   return connection("record_issues")
-    .where("project_number", project_number["project_number"])
+    .where("project_number", project_number)
+    .modify((query) => {
+      if (Object.keys(filters).length > 0) {
+        query.where(filters);
+      }
+    })
     .then((response) => {
       if (response.length < 1) {
         return Promise.reject({ status: 400, msg: "Project not found" });
@@ -220,20 +222,38 @@ exports.updateOneRecordFromProject = (body, params) => {
     });
 };
 
-exports.fetchAllRisks = (project_number) => {
+exports.fetchAllRisks = (project_number, filters) => {
   return connection("register")
     .select()
     .where("project_number", project_number)
-    .orderBy("register_id")
     .then((response) => {
       if (response.length < 1) {
         return Promise.reject({
           status: 400,
           msg: "Project number doesn't exist",
         });
-      } else {
-        return response;
       }
+    })
+    .then(() => {
+      return connection("register")
+        .select()
+        .where("project_number", project_number)
+        .orderBy("register_id")
+        .modify((query) => {
+          if (Object.keys(filters).length > 0) {
+            query.where(filters);
+          }
+        })
+        .then((response) => {
+          if (response.length < 1) {
+            return Promise.reject({
+              status: 400,
+              msg: "Risk does not exist",
+            });
+          } else {
+            return response;
+          }
+        });
     });
 };
 

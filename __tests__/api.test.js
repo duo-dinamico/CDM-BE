@@ -24,7 +24,6 @@ describe("/api", () => {
   it("GET 200 - Returns 200 response from server", () => {
     return request(app).get("/api").expect(200);
   });
-
   // No existing route
   it("GET 400 - Responds with 400 if the path is incorrect", () => {
     return request(app)
@@ -85,7 +84,19 @@ describe("/api", () => {
   //
   // PROJECT
   //
-  describe("/api/project/project_number", () => {
+  describe("/api/project/:project_number", () => {
+    it("INVALID METHODS - Should return method not allowed", () => {
+      const methods = ["post"];
+      const promises = methods.map((method) => {
+        return request(app)
+          [method]("/api/project/111111-11")
+          .expect(405)
+          .then(({ body: { msg } }) => {
+            expect(msg).toEqual("Method not allowed.");
+          });
+      });
+      return Promise.all(promises);
+    });
     it("GET 200 - Returns 200 response from server", () => {
       return request(app).get("/api/project/111111-11").expect(200);
     });
@@ -96,7 +107,7 @@ describe("/api", () => {
         .then(({ body }) => {
           expect(body).toEqual(
             expect.objectContaining({
-              project: expect.arrayContaining([expect.any(Object)]),
+              project: expect.any(Object),
             })
           );
         });
@@ -165,9 +176,8 @@ describe("/api", () => {
     });
     it("PATCH 200 - Returns 200 response from server and updated project", () => {
       return request(app)
-        .patch("/api/project")
+        .patch("/api/project/111111-11")
         .send({
-          project_number: "111111-11",
           project_title: "Project 69",
           project_lead_office: "Campus",
           client: "JLR",
@@ -190,9 +200,8 @@ describe("/api", () => {
     });
     it("PATCH 200 - Returns 200 response from server and updated project", () => {
       return request(app)
-        .patch("/api/project")
+        .patch("/api/project/111111-11")
         .send({
-          project_number: "111111-11",
           stage: "Demolished",
         })
         .expect(200)
@@ -210,25 +219,10 @@ describe("/api", () => {
           );
         });
     });
-    it("PATCH 400 - Returns 400 when project number is not present", () => {
-      return request(app)
-        .patch("/api/project")
-        .send({
-          project_title: "Project 69",
-          project_lead_office: "Campus",
-          client: "JLR",
-          stage: "As Built",
-        })
-        .expect(400)
-        .then(({ body: { msg } }) => {
-          expect(msg).toEqual("Project number missing.");
-        });
-    });
     it("PATCH 400 - Returns 400 when project number does not exist", () => {
       return request(app)
-        .patch("/api/project")
+        .patch("/api/project/111111-1000")
         .send({
-          project_number: "111111-1000",
           project_title: "Project 69",
           project_lead_office: "Campus",
           client: "JLR",
@@ -264,7 +258,21 @@ describe("/api", () => {
         .get("/api/project/111111-11/records")
         .expect(200)
         .then(({ body }) => {
-          expect(body).toEqual(expect.arrayContaining([expect.any(Object)]));
+          expect(body).toEqual(
+            expect.objectContaining({
+              records: expect.arrayContaining([expect.any(Object)]),
+            })
+          );
+        });
+    });
+    it("GET 200 - Should return records of project number, with query", () => {
+      return request(app)
+        .get("/api/project/111111-11/records?approved=SM")
+        .expect(200)
+        .then(({ body: { records } }) => {
+          for (const record of records) {
+            expect(record.approved).toEqual("SM");
+          }
         });
     });
     it("GET 400 - if non existing project number", () => {
@@ -287,7 +295,9 @@ describe("/api", () => {
         .get("/api/project/111111-11/record/34")
         .expect(200)
         .then(({ body }) => {
-          expect(body).toEqual(expect.arrayContaining([expect.any(Object)]));
+          expect(body).toEqual(
+            expect.objectContaining({ record: expect.any(Object) })
+          );
         });
     });
     it("GET 400 - if non existing project number", () => {
@@ -304,7 +314,7 @@ describe("/api", () => {
   describe("/api/project/:project_number/record", () => {
     it("POST 201 - Should return an inserted record", () => {
       return request(app)
-        .post("/api/project/111111-11/record")
+        .post("/api/project/111111-11/records")
         .send({
           // project_number: "111111-11",
           version_number: "69",
@@ -318,12 +328,14 @@ describe("/api", () => {
         })
         .expect(201)
         .then(({ body }) => {
-          expect(body).toEqual(expect.arrayContaining([expect.any(Object)]));
+          expect(body).toEqual(
+            expect.objectContaining({ record: expect.any(Object) })
+          );
         });
     });
     it("POST 400 - if non existing project number", () => {
       return request(app)
-        .post("/api/project/4444/record")
+        .post("/api/project/4444/records")
         .send({
           // project_number: "111111-11",
           version_number: "69",
@@ -342,7 +354,7 @@ describe("/api", () => {
     });
     it("POST 400 - if already exist version for that project number", () => {
       return request(app)
-        .post("/api/project/111111-11/record")
+        .post("/api/project/111111-11/records")
         .send({
           // project_number: "111111-11",
           version_number: "69",
@@ -378,7 +390,9 @@ describe("/api", () => {
         })
         .expect(201)
         .then(({ body }) => {
-          expect(body).toEqual(expect.arrayContaining([expect.any(Object)]));
+          expect(body).toEqual(
+            expect.objectContaining({ record: expect.any(Object) })
+          );
         });
     });
     it("PATCH 400 - if non existing project number", () => {
@@ -436,46 +450,6 @@ describe("/api", () => {
         .expect(400)
         .then((response) => {
           expect(response.body.msg).toBe("Record not found");
-        });
-    });
-  });
-
-  // Get all records from a project number
-  describe("/api/records/:project_number", () => {
-    it("INVALID METHODS - Should return method not allowed", () => {
-      const methods = ["del", "post", "patch", "put"];
-      const promises = methods.map((method) => {
-        return request(app)
-          [method]("/api/records/111111-11")
-          .expect(405)
-          .then(({ body: { msg } }) => {
-            expect(msg).toEqual("Method not allowed.");
-          });
-      });
-      return Promise.all(promises);
-    });
-    it("GET 200 - Returns 200 response from server", () => {
-      return request(app).get("/api/records/111111-11").expect(200);
-    });
-    it("GET 200 - Should return an object", () => {
-      return request(app)
-        .get("/api/records/1")
-        .expect(200)
-        .then(({ body }) => {
-          expect(body).toEqual(
-            expect.objectContaining({ records: expect.any(Array) })
-          );
-        });
-    });
-
-    it("GET 200 - Should return records of project number, with query", () => {
-      return request(app)
-        .get("/api/records/111111-11?approved=SM")
-        .expect(200)
-        .then(({ body: { records } }) => {
-          for (const record of records) {
-            expect(record.approved).toEqual("SM");
-          }
         });
     });
   });

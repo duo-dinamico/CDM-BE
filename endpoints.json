@@ -2,7 +2,7 @@
   "GET /api": {
     "description": "Serves up a json representation of all the available endpoints of the api"
   },
-  "Get /api/projects": {
+  "GET /api/projects": {
     "description": "gets all projects",
     "exampleResponse": {
       "projects": [
@@ -22,9 +22,357 @@
         }
       ]
     },
-    "queries": []
+    "queries": [
+      "Accepts all properties of a project as a query, e.g. '/api/projects?client=Arup'.",
+      "Multiple project queries can be included.",
+      "Queries are matched with AND (&) not OR."
+    ]
   },
-  "Post /api/project/:project_number": {
-    "description": "posts a project with a new number"
+  "GET /api/project/:project_number": {
+    "description": "get a project by its number",
+    "exampleResponse": {
+      "project": [
+        {
+          "project_number": "111111-11",
+          "project_title": "Project 69",
+          "project_lead_office": "Campus",
+          "client": "JLR",
+          "stage": "Demolished"
+        }
+      ]
+    }
+  },
+  "POST /api/project/:project_number": {
+    "description": "post a project with its number",
+    "examplePostObject": {
+      "project_number": "111111-69",
+      "project_title": "Project 69",
+      "project_lead_office": "Campus",
+      "client": "JLR",
+      "stage": "Demolished"
+    },
+    "exampleResponse": {
+      "project": {
+        "project_number": "111111-69",
+        "project_title": "Project 69",
+        "project_lead_office": "Campus",
+        "client": "JLR",
+        "stage": "Demolished"
+      }
+    }
+  },
+  "PATCH /api/project/:project_number": {
+    "description": "patch a project by its number",
+    "examplePostObject": {
+      "project_title": "Project 69",
+      "project_lead_office": "Liverpool",
+      "client": "JLR",
+      "stage": "Demolished"
+    },
+    "exampleResponse": {
+      "project": {
+        "project_number": "111111-69",
+        "project_title": "Project 69",
+        "project_lead_office": "Liverpool",
+        "client": "JLR",
+        "stage": "Demolished"
+      }
+    }
+  },
+  "DELETE /api/project/:project_number": {
+    "description": "delete a project by its number",
+    "exampleResponse": "no body"
+  },
+  "GET /api/project/:project_number/records": {
+    "description": "get all the records from a project",
+    "exampleResponse": {
+      "records": [
+        {
+          "record_id": 1,
+          "project_number": "111111-11",
+          "version_number": "P01",
+          "stage_issued": "Construction",
+          "purpose": "DRAFT",
+          "date": "2016-05-22T23:00:00.000Z",
+          "prepared": "JJ",
+          "checked": "JJ",
+          "approved": "SM",
+          "remarks": "Very nice"
+        },
+        {
+          "record_id": 6,
+          "project_number": "111111-11",
+          "version_number": "69",
+          "stage_issued": "Construction",
+          "purpose": "INFORMATION",
+          "date": "2021-07-11T23:00:00.000Z",
+          "prepared": "JCS2",
+          "checked": "JCS2",
+          "approved": "THE GREAT",
+          "remarks": "among other problems, and others, this is a POST test, and has been rectified."
+        }
+      ]
+    }
+  },
+  "POST /api/project/:project_number/records": {
+    "description": "post a record with its number",
+    "examplePostObject": {
+      "version_number": "P01",
+      "stage_issued": "Construction",
+      "purpose": "DRAFT",
+      "date": "2016-05-22T23:00:00.000Z",
+      "prepared": "JJ",
+      "checked": "JJ",
+      "approved": "SM",
+      "remarks": "Very nice"
+    },
+    "exampleResponse": {
+      "record": {
+        "record_id": 7,
+        "project_number": "111111-11",
+        "version_number": "P02",
+        "stage_issued": "Construction",
+        "purpose": "DRAFT",
+        "date": "2016-05-22T23:00:00.000Z",
+        "prepared": "JJ",
+        "checked": "JJ",
+        "approved": "SM",
+        "remarks": "Very nice"
+      }
+    }
+  },
+  "GET /api/project/:project_number/record/:version": {
+    "description": "get one record from a project with version",
+    "exampleResponse": {
+      "record": {
+        "record_id": 1,
+        "project_number": "111111-11",
+        "version_number": "P01",
+        "stage_issued": "Construction",
+        "purpose": "DRAFT",
+        "date": "2016-05-22T23:00:00.000Z",
+        "prepared": "JJ",
+        "checked": "JJ",
+        "approved": "SM",
+        "remarks": "Very nice"
+      }
+    }
+  },
+  "PATCH /api/project/:project_number/record/:version": {
+    "description": "patch a record by its version and project number",
+    "examplePostObject": {
+      "stage_issued": "Construction",
+      "purpose": "DRAFT",
+      "date": "2016-05-22T23:00:00.000Z",
+      "prepared": "JJ",
+      "checked": "JJ",
+      "approved": "SM",
+      "remarks": "Very nice"
+    },
+    "exampleResponse": {
+      "record": {
+        "record_id": 1,
+        "project_number": "111111-11",
+        "version_number": "P01",
+        "stage_issued": "Construction",
+        "purpose": "DRAFT",
+        "date": "2016-05-22T23:00:00.000Z",
+        "prepared": "JJ",
+        "checked": "JJ",
+        "approved": "SM",
+        "remarks": "Very nice"
+      }
+    }
+  },
+  "DELETE /api/project/:project_number/record/:version": {
+    "description": "delete a record by its number",
+    "exampleResponse": "record_id"
+  },
+  "GET /api/project/:project_number/register": {
+    "description": "get all the risks from a project",
+    "exampleResponse": {
+      "risks": [
+        {
+          "project_number": "111111-11",
+          "register_id": 1,
+          "description": "Ground Contamination",
+          "risk_status": "CONTINUED",
+          "discipline": "CIV",
+          "revision": "0",
+          "project_lifecycle_stage": "C",
+          "hs_risk": true,
+          "environmental_risk": true,
+          "programme_risk": true,
+          "other_risk": false,
+          "likelihood": 5,
+          "severity": 4,
+          "relevant_documentation": "JLR / Golders Information",
+          "owner_of_risk": "Client / Golders",
+          "mitigation_action": "The team have liaised with Golders Associates (client retained contamination consultant) to ascertain all known information about the site contamination, and the remediation process currently being undertaken.",
+          "likelihood_mitigated": 4,
+          "severity_mitigation": 4,
+          "further_action_required": true,
+          "identified_by": "MJM",
+          "date": "2017-06-04T23:00:00.000Z"
+        },
+        {
+          "project_number": "111111-11",
+          "register_id": 2,
+          "description": "Plant Replacement - To replace major plant components on the Rotating Test Wings and PTCD Test roofs that will require craneage. Danger of injury during removal.",
+          "risk_status": "CONTINUED",
+          "discipline": "M&E",
+          "revision": "0",
+          "project_lifecycle_stage": "M",
+          "hs_risk": true,
+          "environmental_risk": false,
+          "programme_risk": true,
+          "other_risk": false,
+          "likelihood": 3,
+          "severity": 5,
+          "relevant_documentation": "N/A",
+          "owner_of_risk": "Arup / Contractor",
+          "mitigation_action": "Feasibility building concept had a square shape building that didn’t offer excellent provision for craneage. The stage 2 has developed the building from a square building to a wing shape that offers improved access for plant removal and craneage.",
+          "likelihood_mitigated": 2,
+          "severity_mitigation": 5,
+          "further_action_required": true,
+          "identified_by": "PH",
+          "date": "2018-09-13T23:00:00.000Z"
+        }
+      ]
+    }
+  },
+  "POST /api/project/:project_number/register": {
+    "description": "post a risk with its project number",
+    "examplePostObject": {
+      "description": "Ground Contamination",
+      "risk_status": "CONTINUED",
+      "discipline": "CIV",
+      "revision": "0",
+      "project_lifecycle_stage": "C",
+      "hs_risk": true,
+      "environmental_risk": true,
+      "programme_risk": true,
+      "other_risk": false,
+      "likelihood": 5,
+      "severity": 4,
+      "relevant_documentation": "JLR / Golders Information",
+      "owner_of_risk": "Client / Golders",
+      "mitigation_action": "The team have liaised with Golders Associates (client retained contamination consultant) to ascertain all known information about the site contamination, and the remediation process currently being undertaken.",
+      "likelihood_mitigated": 4,
+      "severity_mitigation": 4,
+      "further_action_required": true,
+      "identified_by": "MJM",
+      "date": "2017-06-04T23:00:00.000Z"
+    },
+    "exampleResponse": {
+      "risk": {
+        "project_number": "111111-11",
+        "register_id": 16,
+        "description": "Ground Contamination",
+        "risk_status": "CONTINUED",
+        "discipline": "CIV",
+        "revision": "0",
+        "project_lifecycle_stage": "C",
+        "hs_risk": true,
+        "environmental_risk": true,
+        "programme_risk": true,
+        "other_risk": false,
+        "likelihood": 5,
+        "severity": 4,
+        "relevant_documentation": "JLR / Golders Information",
+        "owner_of_risk": "Client / Golders",
+        "mitigation_action": "The team have liaised with Golders Associates (client retained contamination consultant) to ascertain all known information about the site contamination, and the remediation process currently being undertaken.",
+        "likelihood_mitigated": 4,
+        "severity_mitigation": 4,
+        "further_action_required": true,
+        "identified_by": "MJM",
+        "date": "2017-06-04T23:00:00.000Z"
+      }
+    }
+  },
+  "GET /api/project/:project_number/register/:discipline-:stage-:number": {
+    "description": [
+      "get one risk from a project with discipline and stage. number is auto generated.",
+      "Example discipline: M&E",
+      "Example stage: M"
+    ],
+    "exampleResponse": {
+      "risk": {
+        "project_number": "111111-11",
+        "register_id": 3,
+        "description": "Plant Replacement - To replace major plant components on the Rotating Test Wings and PTCD Test roofs that will require craneage. Danger of injury during removal.",
+        "risk_status": "CONTINUED",
+        "discipline": "M&E",
+        "revision": "0",
+        "project_lifecycle_stage": "M",
+        "hs_risk": true,
+        "environmental_risk": false,
+        "programme_risk": true,
+        "other_risk": false,
+        "likelihood": 3,
+        "severity": 5,
+        "relevant_documentation": "N/A",
+        "owner_of_risk": "Arup / Contractor",
+        "mitigation_action": "Feasibility building concept had a square shape building that didn’t offer excellent provision for craneage. The stage 2 has developed the building from a square building to a wing shape that offers improved access for plant removal and craneage.",
+        "likelihood_mitigated": 2,
+        "severity_mitigation": 5,
+        "further_action_required": true,
+        "identified_by": "PH",
+        "date": "2018-09-13T23:00:00.000Z"
+      }
+    }
+  },
+  "PATCH /api/project/:project_number/register/:discipline-:stage-:number": {
+    "description": "patch a risk by its discipline and stage",
+    "examplePostObject": {
+      "description": "Plant Replacement - To replace major plant components on the Rotating Test Wings and PTCD Test roofs that will require craneage. Danger of injury during removal.",
+      "risk_status": "CONTINUED",
+      "discipline": "M&E",
+      "revision": "0",
+      "project_lifecycle_stage": "M",
+      "hs_risk": true,
+      "environmental_risk": false,
+      "programme_risk": true,
+      "other_risk": false,
+      "likelihood": 3,
+      "severity": 5,
+      "relevant_documentation": "N/A",
+      "owner_of_risk": "Arup / Contractor",
+      "mitigation_action": "Feasibility building concept had a square shape building that didn’t offer excellent provision for craneage. The stage 2 has developed the building from a square building to a wing shape that offers improved access for plant removal and craneage.",
+      "likelihood_mitigated": 2,
+      "severity_mitigation": 5,
+      "further_action_required": true,
+      "identified_by": "PH",
+      "date": "2018-09-13T23:00:00.000Z"
+    },
+    "exampleResponse": {
+      "risk": {
+        "project_number": "111111-11",
+        "register_id": 3,
+        "description": "Plant Replacement - To replace major plant components on the Rotating Test Wings and PTCD Test roofs that will require craneage. Danger of injury during removal.",
+        "risk_status": "CONTINUED",
+        "discipline": "M&E",
+        "revision": "0",
+        "project_lifecycle_stage": "M",
+        "hs_risk": true,
+        "environmental_risk": false,
+        "programme_risk": true,
+        "other_risk": false,
+        "likelihood": 3,
+        "severity": 5,
+        "relevant_documentation": "N/A",
+        "owner_of_risk": "Arup / Contractor",
+        "mitigation_action": "Feasibility building concept had a square shape building that didn’t offer excellent provision for craneage. The stage 2 has developed the building from a square building to a wing shape that offers improved access for plant removal and craneage.",
+        "likelihood_mitigated": 2,
+        "severity_mitigation": 5,
+        "further_action_required": true,
+        "identified_by": "PH",
+        "date": "2018-09-13T23:00:00.000Z"
+      }
+    }
+  },
+  "DELETE /api/project/:project_number/register/:discipline-:stage-:number": {
+    "description": "delete a risk by discipline and stage",
+    "exampleResponse": ""
   }
 }
