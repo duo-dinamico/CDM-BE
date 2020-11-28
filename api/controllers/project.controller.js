@@ -5,13 +5,13 @@ const {
   editProjectByNumber,
   fetchRecordByProject,
   fetchOneRecordByProject,
-  fetchRecordByRecordNumber,
   deleteOneRecordFromProject,
   insertOneRecordFromProject,
   updateOneRecordFromProject,
   fetchAllRisks,
   fetchRiskByNumber,
   editRiskByNumber,
+  addOneRisk,
 } = require("../models/project.model");
 
 exports.getProjectByNumber = (req, res, next) => {
@@ -143,6 +143,18 @@ exports.patchRiskByNumber = (req, res, next) => {
       res.status(200).send({ risk: risk[0] });
     })
     .catch((err) => {
+      next(err);
+    });
+};
+
+exports.postOneRisk = (req, res, next) => {
+  const { project_number } = req.params;
+  addOneRisk(project_number, req.body)
+    .then((newRisk) => {
+      res.status(200).send({ risk: newRisk });
+    })
+    .catch((err) => {
+      console.log(err);
       next(err);
     });
 };

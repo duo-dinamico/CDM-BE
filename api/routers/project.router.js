@@ -13,6 +13,7 @@ const {
   getAllRisks,
   getRiskByNumber,
   patchRiskByNumber,
+  postOneRisk,
 } = require("../controllers/project.controller");
 
 projectRouter
@@ -32,6 +33,7 @@ projectRouter
 projectRouter
   .route("/:project_number/register")
   .get(getAllRisks)
+  .post(postOneRisk)
   .all(errors405s);
 projectRouter
   .route("/:project_number/register/:discipline-:stage-:number")

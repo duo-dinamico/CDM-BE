@@ -1,7 +1,10 @@
 exports.up = function (knex) {
   return knex.schema.createTable("register", (registerTable) => {
     registerTable.string("project_number").notNullable();
-    registerTable.foreign("project_number").references("projects.project_number").onDelete("CASCADE");
+    registerTable
+      .foreign("project_number")
+      .references("projects.project_number")
+      .onDelete("CASCADE");
     registerTable.increments("register_id");
     registerTable.text("description").notNullable();
     registerTable.string("risk_status").notNullable();

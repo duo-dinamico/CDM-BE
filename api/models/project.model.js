@@ -313,3 +313,7 @@ exports.editRiskByNumber = (
         });
     });
 };
+
+exports.addOneRisk = (project_number, body) => {
+  return connection("register").insert({ project_number, ...body }, ["*"]);
+};

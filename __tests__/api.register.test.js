@@ -10,8 +10,8 @@ describe("/api/project/:project_number/register", () => {
     return connection.destroy();
   });
   //METHOD
-  it.skip("INVALID METHODS - Should return method not allowed", () => {
-    const methods = ["post", "get"];
+  it("INVALID METHODS - Should return method not allowed", () => {
+    const methods = ["delete", "patch"];
     const promises = methods.map((method) => {
       return request(app)
         [method]("/api/project/111111-11/register")
@@ -44,8 +44,57 @@ describe("/api/project/:project_number/register", () => {
         expect(msg).toEqual("Project number doesn't exist");
       });
   });
+  //POST
+  it("GET 200 - Returns the added register", () => {
+    return request(app)
+      .post("/api/project/111111-69/register")
+      .send({
+        description: "This is a test",
+        risk_status: "RESOLVED",
+        discipline: "ARCH",
+        revision: "3",
+        project_lifecycle_stage: "D",
+        hs_risk: false,
+        environmental_risk: false,
+        programme_risk: true,
+        other_risk: false,
+        likelihood: 3,
+        severity: 5,
+        relevant_documentation: "N/A",
+        owner_of_risk: "Architect",
+        mitigation_action: "Test mitigation",
+        likelihood_mitigated: 2,
+        severity_mitigation: 5,
+        further_action_required: true,
+        identified_by: "JJ",
+        date: "2020-11-26",
+      })
+      .expect(200)
+      .then(({ body }) => {
+        expect(body).toEqual(
+          expect.objectContaining({
+            risk: expect.objectContaining({
+              project_number: "111111-69",
+              project_lifecycle_stage: "D",
+            }),
+          })
+        );
+      });
+  });
   describe("/api/project/:project_number/register/:risk_number", () => {
-    //
+    //METHOD
+    it.skip("INVALID METHODS - Should return method not allowed", () => {
+      const methods = ["post", "get"];
+      const promises = methods.map((method) => {
+        return request(app)
+          [method]("/api/project/111111-11/register/M&E-M-002")
+          .expect(405)
+          .then(({ body: { msg } }) => {
+            expect(msg).toEqual("Method not allowed.");
+          });
+      });
+      return Promise.all(promises);
+    });
     //GET
     it('"GET 200 - Returns one risk from a project" ', () => {
       return request(app)
@@ -89,40 +138,6 @@ describe("/api/project/:project_number/register", () => {
           expect(msg).toEqual("Risk number cannot be zero.");
         });
     });
-    //POST
-    it("GET 200 - Returns the added register", () => {
-      return request(app)
-        .post("/api/project/111111-11/register")
-        .send({
-          project_number: "111111-11",
-          description:
-            "Plant Replacement - To replace major plant components on the Rotating Test Wings and PTCD Test roofs that will require craneage. Danger of injury during removal.",
-          risk_status: "CONTINUED",
-          discipline: "M&E",
-          revision: "0",
-          project_lifecycle_stage: "M",
-          hs_risk: false,
-          environmental_risk: false,
-          programme_risk: true,
-          other_risk: false,
-          likelihood: 3,
-          severity: 5,
-          relevant_documentation: "N/A",
-          owner_of_risk: "Arup / Contractor",
-          mitigation_action:
-            "Feasibility building concept had a square shape building that didn’t offer excellent provision for craneage. The stage 2 has developed the building from a square building to a wing shape that offers improved access for plant removal and craneage.",
-          likelihood_mitigated: 2,
-          severity_mitigation: 5,
-          further_action_required: true,
-          identified_by: "PH",
-          date: "2018-09-13T23:00:00.000Z",
-        })
-        .expect(200)
-        .then(({ body }) => {
-          expect;
-        });
-    });
-
     // PATCH
     it("PATCH 200 - Returns the changed risk", () => {
       return request(app)
