@@ -224,6 +224,7 @@ exports.fetchAllRisks = (project_number) => {
   return connection("register")
     .select()
     .where("project_number", project_number)
+    .orderBy("register_id")
     .then((response) => {
       if (response.length < 1) {
         return Promise.reject({
@@ -260,6 +261,7 @@ exports.fetchRiskByNumber = ({ project_number, discipline, stage, number }) => {
       return connection("register")
         .select()
         .where({ project_number, discipline, project_lifecycle_stage: stage })
+        .orderBy("register_id")
         .then((response) => {
           if (response.length < Number(number)) {
             return Promise.reject({ status: 400, msg: "Risk does not exist." });
@@ -293,8 +295,8 @@ exports.editRiskByNumber = (
     })
     .then(() => {
       return connection("register")
-        .select()
         .where({ project_number, discipline, project_lifecycle_stage: stage })
+        .orderBy("register_id")
         .then((response) => {
           if (response.length < Number(number)) {
             return Promise.reject({
@@ -348,7 +350,10 @@ exports.deleteRiskByNumber = ({
         .orderBy("register_id")
         .then((response) => {
           if (response.length < Number(number)) {
-            return Promise.reject({ status: 400, msg: "Risk does not exist." });
+            return Promise.reject({
+              status: 400,
+              msg: "Risk does not exist.",
+            });
           } else {
             return connection("register")
               .where("register_id", response[Number(number) - 1].register_id)
