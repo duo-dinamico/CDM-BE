@@ -214,7 +214,28 @@ describe("/api/project/:project_number/register", () => {
           expect(msg).toEqual("Risk number cannot be zero.");
         });
     });
+
     //DELETE
-    it("DELETE 200 - Delete a register", () => {});
+    it("DEL 200 - Returns 200 response from server", () => {
+      return request(app)
+        .del("/api/project/111111-11/register/M&E-M-002")
+        .expect(200);
+    });
+    it("DEL 400 - if non existing project number", () => {
+      return request(app)
+        .del("/api/project/444/register/M&E-M-050")
+        .expect(400)
+        .then((response) => {
+          expect(response.body.msg).toBe("Project number is incorrect.");
+        });
+    });
+    it("DEL 400 - if non existing risk", () => {
+      return request(app)
+        .del("/api/project/111111-11/register/M&E-M-050")
+        .expect(400)
+        .then((response) => {
+          expect(response.body.msg).toBe("Risk does not exist.");
+        });
+    });
   });
 });
