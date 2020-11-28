@@ -467,5 +467,16 @@ describe("/api", () => {
           );
         });
     });
+
+    it("GET 200 - Should return records of project number, with query", () => {
+      return request(app)
+        .get("/api/records/111111-11?approved=SM")
+        .expect(200)
+        .then(({ body: { records } }) => {
+          for (const record of records) {
+            expect(record.approved).toEqual("SM");
+          }
+        });
+    });
   });
 });
