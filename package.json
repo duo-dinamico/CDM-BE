@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "setup-dbs": "psql -f ./db/setup.sql",
-    "test": "jest --verbose=false ./__tests__",
+    "test": "jest --watch --verbose=false",
     "mig-make": "knex migrate:make",
-    "seed": "NODE_ENV=test knex seed:run"
+    "seed": "NODE_ENV=test knex seed:run",
+    "start": "nodemon listen.js"
   },
   "repository": {
     "type": "git",
@@ -20,8 +21,11 @@
   },
   "homepage": "https://github.com/joaojesus81/CDM-Risk-Register#readme",
   "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "knex": "^0.21.12",
     "node-postgres": "^0.6.2",
+    "nodemon": "^2.0.6",
     "pg": "^8.5.0"
   },
   "devDependencies": {
