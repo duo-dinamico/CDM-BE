@@ -3,7 +3,11 @@ exports.errors405s = (req, res, next) => {
 };
 
 exports.PSQLerrors = (err, req, res, next) => {
-  if (err.code === "23505") {
+  if (err.code === "42703") {
+    res.status(400).send({ msg: "One or more entry columns do not exist." });
+  } else if (err.code === "23503") {
+    res.status(400).send({ msg: "Must add to existing project." });
+  } else if (err.code === "23505") {
     res.status(400).send({ msg: "Data already present in the database." });
   } else if (err.code === "23502") {
     res.status(400).send({ msg: `Column ${err.column} cannot be empty.` });

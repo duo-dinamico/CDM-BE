@@ -155,7 +155,7 @@ exports.postOneRisk = (req, res, next) => {
       res.status(200).send({ risk: newRisk[0] });
     })
     .catch((err) => {
-      console.log(err);
+      next(err);
     });
 };
 

@@ -45,7 +45,7 @@ describe("/api/project/:project_number/register", () => {
       });
   });
   //POST
-  it("GET 200 - Returns the added register", () => {
+  it("POST 200 - Returns the added register", () => {
     return request(app)
       .post("/api/project/111111-11/register")
       .send({
@@ -81,10 +81,69 @@ describe("/api/project/:project_number/register", () => {
         );
       });
   });
+  it("POST 400 - Returns error if project does not exist", () => {
+    return request(app)
+      .post("/api/project/111111-69/register")
+      .send({
+        description: "This is a test",
+        risk_status: "RESOLVED",
+        discipline: "ARCH",
+        revision: "3",
+        project_lifecycle_stage: "D",
+        hs_risk: false,
+        environmental_risk: false,
+        programme_risk: true,
+        other_risk: false,
+        likelihood: 3,
+        severity: 5,
+        relevant_documentation: "N/A",
+        owner_of_risk: "Architect",
+        mitigation_action: "Test mitigation",
+        likelihood_mitigated: 2,
+        severity_mitigation: 5,
+        further_action_required: true,
+        identified_by: "JJ",
+        date: "2020-11-26",
+      })
+      .expect(400)
+      .then(({ body: { msg } }) => {
+        expect(msg).toEqual("Must add to existing project.");
+      });
+  });
+  it("POST 400 - Returns error input is incorrect", () => {
+    return request(app)
+      .post("/api/project/111111-11/register")
+      .send({
+        jiberish: "dfgdf",
+        description: "This is a test",
+        risk_status: "RESOLVED",
+        discipline: "ARCH",
+        revision: "3",
+        project_lifecycle_stage: "D",
+        hs_risk: false,
+        environmental_risk: false,
+        programme_risk: true,
+        other_risk: false,
+        likelihood: 3,
+        severity: 5,
+        relevant_documentation: "N/A",
+        owner_of_risk: "Architect",
+        mitigation_action: "Test mitigation",
+        likelihood_mitigated: 2,
+        severity_mitigation: 5,
+        further_action_required: true,
+        identified_by: "JJ",
+        date: "2020-11-26",
+      })
+      .expect(400)
+      .then(({ body: { msg } }) => {
+        expect(msg).toEqual("One or more entry columns do not exist.");
+      });
+  });
   describe("/api/project/:project_number/register/:risk_number", () => {
     //METHOD
-    it.skip("INVALID METHODS - Should return method not allowed", () => {
-      const methods = ["post", "get"];
+    it("INVALID METHODS - Should return method not allowed", () => {
+      const methods = ["post"];
       const promises = methods.map((method) => {
         return request(app)
           [method]("/api/project/111111-11/register/M&E-M-002")
