@@ -47,7 +47,7 @@ describe("/api/project/:project_number/register", () => {
   //POST
   it("GET 200 - Returns the added register", () => {
     return request(app)
-      .post("/api/project/111111-69/register")
+      .post("/api/project/111111-11/register")
       .send({
         description: "This is a test",
         risk_status: "RESOLVED",
@@ -74,7 +74,7 @@ describe("/api/project/:project_number/register", () => {
         expect(body).toEqual(
           expect.objectContaining({
             risk: expect.objectContaining({
-              project_number: "111111-69",
+              project_number: "111111-11",
               project_lifecycle_stage: "D",
             }),
           })

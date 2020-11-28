@@ -11,11 +11,8 @@ const {
   fetchAllRisks,
   fetchRiskByNumber,
   editRiskByNumber,
-<<<<<<< HEAD
   addOneRisk,
-=======
   deleteRiskByNumber,
->>>>>>> 83ccc66630bdb4939c78036819e1e318c6ff75e8
 } = require("../models/project.model");
 
 exports.getProjectByNumber = (req, res, next) => {
@@ -155,10 +152,13 @@ exports.postOneRisk = (req, res, next) => {
   const { project_number } = req.params;
   addOneRisk(project_number, req.body)
     .then((newRisk) => {
-      res.status(200).send({ risk: newRisk });
+      res.status(200).send({ risk: newRisk[0] });
     })
     .catch((err) => {
       console.log(err);
+    });
+};
+
 exports.delRiskByNumber = (req, res, next) => {
   deleteRiskByNumber(req.params)
     .then((risk) => {
