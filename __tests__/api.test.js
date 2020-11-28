@@ -65,17 +65,12 @@ describe("/api", () => {
       return request(app)
         .get("/api/projects?client=Arup")
         .expect(200)
-        .then(({ body }) => {
-          expect(body).toEqual(
-            expect.objectContaining({
-              projects: expect.arrayContaining([
-                !expect.objectContaining({ client: "JLR" }),
-              ]),
-            })
-          );
+        .then(({ body: { projects } }) => {
+          for (const project of projects) {
+            expect(project.client).toEqual("Arup");
+          }
         });
     });
-
     // No existing route in projects
     it("GET 400 - Responds with 400 if the path is incorrect", () => {
       return request(app)

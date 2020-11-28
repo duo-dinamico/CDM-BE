@@ -1,16 +1,12 @@
 const connection = require("../../db/connection");
 
-exports.fetchAllProjects = () => {
+exports.fetchAllProjects = (filters) => {
   const filterKeys = Object.keys(filters);
-  console.log(filters);
   return connection("projects")
     .select()
     .modify((query) => {
-      if (filterKeys.length > 1) {
+      if (filterKeys.length > 0) {
         query.where(filters);
       }
-    })
-    .then((response) => {
-      return response;
     });
 };
