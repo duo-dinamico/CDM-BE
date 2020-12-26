@@ -316,7 +316,26 @@ describe("/api", () => {
       return request(app)
         .post("/api/project/111111-11/records")
         .send({
-          // project_number: "111111-11",
+          version_number: "69",
+          stage_issued: "Construction",
+          purpose: "INFORMATION",
+          date: "2021-07-12",
+          prepared: "JCS",
+          checked: "JCS",
+          approved: "GREAT",
+          remarks: "among other problems, and others, this is a POST test.",
+        })
+        .expect(201)
+        .then(({ body }) => {
+          expect(body).toEqual(
+            expect.objectContaining({ record: expect.any(Object) })
+          );
+        });
+    });
+    it("POST 201 - Should return an inserted record", () => {
+      return request(app)
+        .post("/api/project/111111-44/records")
+        .send({
           version_number: "69",
           stage_issued: "Construction",
           purpose: "INFORMATION",
@@ -337,7 +356,6 @@ describe("/api", () => {
       return request(app)
         .post("/api/project/4444/records")
         .send({
-          // project_number: "111111-11",
           version_number: "69",
           stage_issued: "Construction",
           purpose: "INFORMATION",
@@ -349,14 +367,13 @@ describe("/api", () => {
         })
         .expect(400)
         .then((response) => {
-          expect(response.body.msg).toBe("Project not found");
+          expect(response.body.msg).toBe("Must add to existing project.");
         });
     });
     it("POST 400 - if already exist version for that project number", () => {
       return request(app)
         .post("/api/project/111111-11/records")
         .send({
-          // project_number: "111111-11",
           version_number: "69",
           stage_issued: "Construction",
           purpose: "INFORMATION",

@@ -1,6 +1,5 @@
 module.exports = [
   {
-    // record_id: 1,
     project_number: "111111-11",
     version_number: "P01",
     stage_issued: "Construction",
@@ -12,7 +11,6 @@ module.exports = [
     remarks: "Very nice",
   },
   {
-    // record_id: 2,
     project_number: "111111-22",
     version_number: "1",
     stage_issued: "Approval In Principle",
@@ -24,7 +22,6 @@ module.exports = [
     remarks: "none",
   },
   {
-    // record_id: 3,
     project_number: "111111-22",
     version_number: "2",
     stage_issued: "As-Built",
@@ -36,7 +33,6 @@ module.exports = [
     remarks: "",
   },
   {
-    // record_id: 4,
     project_number: "111111-33",
     version_number: "xpto",
     stage_issued: "Demolition",
@@ -48,7 +44,6 @@ module.exports = [
     remarks: "blah blah",
   },
   {
-    // record_id: 5,
     project_number: "111111-11",
     version_number: "34",
     stage_issued: "Construction",
@@ -58,5 +53,5 @@ module.exports = [
     checked: "PJ",
     approved: "BOSS",
     remarks: "among other problems",
-  }
+  },
 ];
