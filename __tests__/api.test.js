@@ -265,6 +265,14 @@ describe("/api", () => {
           );
         });
     });
+    it("GET 200 - Should return info if the project has no records", () => {
+      return request(app)
+        .get("/api/project/111111-44/records")
+        .expect(200)
+        .then(({ body: { msg } }) => {
+          expect(msg).toEqual("Project has no records.");
+        });
+    });
     it("GET 200 - Should return records of project number, with query", () => {
       return request(app)
         .get("/api/project/111111-11/records?approved=SM")
