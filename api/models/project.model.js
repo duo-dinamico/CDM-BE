@@ -90,19 +90,31 @@ exports.editProjectByNumber = (
 };
 
 exports.fetchRecordByProject = (project_number, filters) => {
-  return connection("record_issues")
+  return connection("projects")
     .where("project_number", project_number)
-    .modify((query) => {
-      if (Object.keys(filters).length > 0) {
-        query.where(filters);
+    .then((projects) => {
+      if (projects.length < 1) {
+        return Promise.reject({ status: 400, msg: "Project not found" });
       }
     })
-    .then((response) => {
-      if (response.length < 1) {
-        return Promise.reject({ status: 400, msg: "Project not found" });
-      } else {
-        return response;
-      }
+    .then(() => {
+      return connection("record_issues")
+        .where("project_number", project_number)
+        .modify((query) => {
+          if (Object.keys(filters).length > 0) {
+            query.where(filters);
+          }
+        })
+        .then((response) => {
+          if (response.length < 1) {
+            return Promise.reject({
+              status: 200,
+              msg: "Project has no records.",
+            });
+          } else {
+            return response;
+          }
+        });
     });
 };
 
