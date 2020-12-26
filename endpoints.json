@@ -42,7 +42,7 @@
       ]
     }
   },
-  "POST /api/project/:project_number": {
+  "POST /api/project": {
     "description": "post a project with its number",
     "examplePostObject": {
       "project_number": "111111-69",
