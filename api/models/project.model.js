@@ -97,6 +97,19 @@ exports.fetchRecordByProject = (project_number, filters) => {
         return Promise.reject({ status: 400, msg: "Project not found" });
       }
     })
+
+    .then(() => {
+      return connection("record_issues")
+        .where("project_number", project_number)
+        .then((response) => {
+          if (response.length < 1) {
+            return Promise.reject({
+              status: 200,
+              msg: "Project has no records.",
+            });
+          }
+        });
+    })
     .then(() => {
       return connection("record_issues")
         .where("project_number", project_number)
@@ -109,7 +122,7 @@ exports.fetchRecordByProject = (project_number, filters) => {
           if (response.length < 1) {
             return Promise.reject({
               status: 200,
-              msg: "Project has no records.",
+              msg: "Records does not exist",
             });
           } else {
             return response;
@@ -229,16 +242,29 @@ exports.updateOneRecordFromProject = (body, params) => {
 };
 
 exports.fetchAllRisks = (project_number, filters) => {
-  return connection("register")
+  return connection("projects")
     .select()
     .where("project_number", project_number)
     .then((response) => {
       if (response.length < 1) {
         return Promise.reject({
           status: 400,
-          msg: "Project number doesn't exist",
+          msg: "Project not found",
         });
       }
+    })
+    .then(() => {
+      return connection("register")
+        .select()
+        .where("project_number", project_number)
+        .then((response) => {
+          if (response.length < 1) {
+            return Promise.reject({
+              status: 200,
+              msg: "Project has no risks",
+            });
+          }
+        });
     })
     .then(() => {
       return connection("register")
