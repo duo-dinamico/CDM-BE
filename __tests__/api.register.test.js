@@ -36,6 +36,14 @@ describe("/api/project/:project_number/register", () => {
         );
       });
   });
+  it("GET 200 - Should return a message if the project in question has no registers", () => {
+    return request(app)
+      .get("/api/project/111111-44/register")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.msg).toEqual("Project has no risks");
+      });
+  });
   it("GET 200 - Returns all registers from a project and allows queries", () => {
     return request(app)
       .get("/api/project/111111-11/register?risk_status=CONTINUED")
@@ -56,10 +64,10 @@ describe("/api/project/:project_number/register", () => {
   });
   it("GET 400 - Should return error if project is not found", () => {
     return request(app)
-      .get("/api/project/111111-55/register")
+      .get("/api/project/111111-66/register")
       .expect(400)
       .then(({ body: { msg } }) => {
-        expect(msg).toEqual("Project number doesn't exist");
+        expect(msg).toEqual("Project not found");
       });
   });
   //POST
