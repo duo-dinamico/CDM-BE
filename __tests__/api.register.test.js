@@ -166,7 +166,7 @@ describe("/api/project/:project_number/register", () => {
         expect(msg).toEqual("One or more entry columns do not exist.");
       });
   });
-  describe("/api/project/:project_number/register/:risk_number", () => {
+  describe("/api/project/:project_number/register/:register_id", () => {
     //METHOD
     it("INVALID METHODS - Should return method not allowed", () => {
       const methods = ["post"];
@@ -183,7 +183,7 @@ describe("/api/project/:project_number/register", () => {
     //GET
     it('"GET 200 - Returns one risk from a project" ', () => {
       return request(app)
-        .get("/api/project/111111-11/register/M&E-M-002")
+        .get("/api/project/111111-11/register/1")
         .expect(200)
         .then(({ body }) => {
           expect(body).toEqual(
@@ -191,42 +191,34 @@ describe("/api/project/:project_number/register", () => {
           );
         });
     });
-    it("GET 400 - Returns an error if the number is incorrect", () => {
+    it("GET 400 - Returns an error if the register_id is incorrect", () => {
       return request(app)
-        .get("/api/project/111111-11/register/M&E-M-003")
+        .get("/api/project/111111-11/register/69")
         .expect(400)
         .then(({ body: { msg } }) => {
           expect(msg).toEqual("Risk does not exist.");
         });
     });
+    it("GET 400 - Returns an error if the register_id is not a number", () => {
+      return request(app)
+        .get("/api/project/111111-11/register/NUM")
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toEqual("The register_id must be a number.");
+        });
+    });
     it("GET 400 - Returns an error if the project number is incorrect", () => {
       return request(app)
-        .get("/api/project/111111-69/register/M&E-M-002")
+        .get("/api/project/111111-69/register/1")
         .expect(400)
         .then(({ body: { msg } }) => {
           expect(msg).toEqual("Project number is incorrect.");
         });
     });
-    it("GET 400 - Returns an error if the project number is incorrect", () => {
-      return request(app)
-        .get("/api/project/111111-11/register/ELE-M-003")
-        .expect(400)
-        .then(({ body: { msg } }) => {
-          expect(msg).toEqual("Risk does not exist.");
-        });
-    });
-    it("GET 400 - Returns an error if the number used is 000", () => {
-      return request(app)
-        .get("/api/project/111111-11/register/M&E-M-000")
-        .expect(400)
-        .then(({ body: { msg } }) => {
-          expect(msg).toEqual("Risk number cannot be zero.");
-        });
-    });
     // PATCH
     it("PATCH 200 - Returns the changed risk", () => {
       return request(app)
-        .patch("/api/project/111111-11/register/M&E-M-001")
+        .patch("/api/project/111111-11/register/2")
         .send({
           project_number: "111111-11",
           description:
@@ -265,7 +257,7 @@ describe("/api/project/:project_number/register", () => {
     });
     it("PATCH 400 - Returns error if the project doesn't exist", () => {
       return request(app)
-        .patch("/api/project/111111-69/register/M&E-M-001")
+        .patch("/api/project/111111-69/register/2")
         .send({
           project_number: "111111-11",
           hs_risk: false,
@@ -277,7 +269,7 @@ describe("/api/project/:project_number/register", () => {
     });
     it("PATCH 400 - Returns error if the risk doesn't exist", () => {
       return request(app)
-        .patch("/api/project/111111-11/register/M&E-M-050")
+        .patch("/api/project/111111-11/register/69")
         .send({
           project_number: "111111-11",
           hs_risk: false,
@@ -287,27 +279,13 @@ describe("/api/project/:project_number/register", () => {
           expect(msg).toEqual("Risk does not exist.");
         });
     });
-    it("PATCH 400 - Returns error if number is 000", () => {
-      return request(app)
-        .patch("/api/project/111111-11/register/M&E-M-000")
-        .send({
-          project_number: "111111-11",
-          hs_risk: false,
-        })
-        .expect(400)
-        .then(({ body: { msg } }) => {
-          expect(msg).toEqual("Risk number cannot be zero.");
-        });
-    });
     //DELETE
     it("DEL 200 - Returns 200 response from server", () => {
-      return request(app)
-        .del("/api/project/111111-11/register/M&E-M-002")
-        .expect(200);
+      return request(app).del("/api/project/111111-11/register/2").expect(200);
     });
     it("DEL 400 - if non existing project number", () => {
       return request(app)
-        .del("/api/project/444/register/M&E-M-050")
+        .del("/api/project/444/register/1")
         .expect(400)
         .then((response) => {
           expect(response.body.msg).toBe("Project number is incorrect.");
@@ -315,7 +293,7 @@ describe("/api/project/:project_number/register", () => {
     });
     it("DEL 400 - if non existing risk", () => {
       return request(app)
-        .del("/api/project/111111-11/register/M&E-M-050")
+        .del("/api/project/111111-11/register/69")
         .expect(400)
         .then((response) => {
           expect(response.body.msg).toBe("Risk does not exist.");

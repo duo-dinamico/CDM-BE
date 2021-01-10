@@ -290,12 +290,8 @@
       }
     }
   },
-  "GET /api/project/:project_number/register/:discipline-:stage-:number": {
-    "description": [
-      "get one risk from a project with discipline and stage. number is auto generated.",
-      "Example discipline: M&E",
-      "Example stage: M"
-    ],
+  "GET /api/project/:project_number/register/:register_id": {
+    "description": "get one risk from a project the register_id",
     "exampleResponse": {
       "risk": {
         "project_number": "111111-11",
@@ -322,8 +318,8 @@
       }
     }
   },
-  "PATCH /api/project/:project_number/register/:discipline-:stage-:number": {
-    "description": "patch a risk by its discipline and stage",
+  "PATCH /api/project/:project_number/register/:register_id": {
+    "description": "patch a risk by its register_id",
     "examplePostObject": {
       "description": "Plant Replacement - To replace major plant components on the Rotating Test Wings and PTCD Test roofs that will require craneage. Danger of injury during removal.",
       "risk_status": "CONTINUED",
@@ -371,8 +367,8 @@
       }
     }
   },
-  "DELETE /api/project/:project_number/register/:discipline-:stage-:number": {
-    "description": "delete a risk by discipline and stage",
+  "DELETE /api/project/:project_number/register/:register_id": {
+    "description": "delete a risk by register_id",
     "exampleResponse": ""
   }
 }

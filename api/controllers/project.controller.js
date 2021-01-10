@@ -9,10 +9,10 @@ const {
   insertOneRecordFromProject,
   updateOneRecordFromProject,
   fetchAllRisks,
-  fetchRiskByNumber,
-  editRiskByNumber,
+  fetchRiskById,
+  editRiskById,
   addOneRisk,
-  deleteRiskByNumber,
+  deleteRiskById,
 } = require("../models/project.model");
 
 exports.getProjectByNumber = (req, res, next) => {
@@ -119,6 +119,7 @@ exports.patchOneRecord = (req, res, next) => {
     });
 };
 
+// Risks
 exports.getAllRisks = (req, res, next) => {
   const { project_number } = req.params;
   fetchAllRisks(project_number, req.query)
@@ -130,8 +131,8 @@ exports.getAllRisks = (req, res, next) => {
     });
 };
 
-exports.getRiskByNumber = (req, res, next) => {
-  fetchRiskByNumber(req.params)
+exports.getOneRisk = (req, res, next) => {
+  fetchRiskById(req.params)
     .then((risk) => {
       res.status(200).send({ risk });
     })
@@ -140,8 +141,8 @@ exports.getRiskByNumber = (req, res, next) => {
     });
 };
 
-exports.patchRiskByNumber = (req, res, next) => {
-  editRiskByNumber(req.body, req.params)
+exports.patchOneRisk = (req, res, next) => {
+  editRiskById(req.body, req.params)
     .then((risk) => {
       res.status(200).send({ risk: risk[0] });
     })
@@ -161,8 +162,8 @@ exports.postOneRisk = (req, res, next) => {
     });
 };
 
-exports.delRiskByNumber = (req, res, next) => {
-  deleteRiskByNumber(req.params)
+exports.delOneRisk = (req, res, next) => {
+  deleteRiskById(req.params)
     .then((risk) => {
       res.status(200).send({ risk: risk[0] });
     })
