@@ -11,10 +11,10 @@ const {
   postOneRecord,
   patchOneRecord,
   getAllRisks,
-  getRiskByNumber,
-  patchRiskByNumber,
+  getOneRisk,
+  patchOneRisk,
   postOneRisk,
-  delRiskByNumber,
+  delOneRisk,
 } = require("../controllers/project.controller");
 
 projectRouter.route("/").post(postProjectByNumber).all(errors405s);
@@ -35,10 +35,10 @@ projectRouter
   .post(postOneRisk)
   .all(errors405s);
 projectRouter
-  .route("/:project_number/register/:discipline-:stage-:number")
-  .get(getRiskByNumber)
-  .patch(patchRiskByNumber)
-  .delete(delRiskByNumber)
+  .route("/:project_number/register/:register_id")
+  .get(getOneRisk)
+  .patch(patchOneRisk)
+  .delete(delOneRisk)
   .all(errors405s);
 projectRouter
   .route("/:project_number/record/:version")
