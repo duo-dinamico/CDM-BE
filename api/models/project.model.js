@@ -241,6 +241,7 @@ exports.updateOneRecordFromProject = (body, params) => {
     });
 };
 
+// Risks
 exports.fetchAllRisks = (project_number, filters) => {
   return connection("projects")
     .select()
@@ -289,11 +290,11 @@ exports.fetchAllRisks = (project_number, filters) => {
     });
 };
 
-exports.fetchRiskByNumber = ({ project_number, discipline, stage, number }) => {
-  if (Number(number) < 1) {
+exports.fetchRiskById = ({ project_number, register_id }) => {
+  if (isNaN(register_id)) {
     return Promise.reject({
       status: 400,
-      msg: "Risk number cannot be zero.",
+      msg: "The register_id must be a number.",
     });
   }
   return connection("register")
@@ -312,26 +313,23 @@ exports.fetchRiskByNumber = ({ project_number, discipline, stage, number }) => {
     .then(() => {
       return connection("register")
         .select()
-        .where({ project_number, discipline, project_lifecycle_stage: stage })
+        .where({ project_number, register_id })
         .orderBy("register_id")
         .then((response) => {
-          if (response.length < Number(number)) {
+          if (response.length < 1) {
             return Promise.reject({ status: 400, msg: "Risk does not exist." });
           } else {
-            return response[Number(number) - 1];
+            return response[0];
           }
         });
     });
 };
 
-exports.editRiskByNumber = (
-  body,
-  { project_number, discipline, stage, number }
-) => {
-  if (Number(number) < 1) {
+exports.editRiskById = (body, { project_number, register_id }) => {
+  if (isNaN(register_id)) {
     return Promise.reject({
       status: 400,
-      msg: "Risk number cannot be zero.",
+      msg: "The register_id must be a number.",
     });
   }
   return connection("register")
@@ -347,22 +345,18 @@ exports.editRiskByNumber = (
     })
     .then(() => {
       return connection("register")
-        .where({ project_number, discipline, project_lifecycle_stage: stage })
+        .where({ project_number, register_id })
         .orderBy("register_id")
         .then((response) => {
-          if (response.length < Number(number)) {
+          if (response.length < 1) {
             return Promise.reject({
               status: 400,
               msg: "Risk does not exist.",
             });
           } else {
-            for (let i = 0; i < response.length; i++) {
-              if (i === Number(number) - 1) {
-                return connection("register")
-                  .where("register_id", response[i].register_id)
-                  .update(body, ["*"]);
-              }
-            }
+            return connection("register")
+              .where({ register_id })
+              .update(body, ["*"]);
           }
         });
     });
@@ -372,16 +366,11 @@ exports.addOneRisk = (project_number, body) => {
   return connection("register").insert({ project_number, ...body }, ["*"]);
 };
 
-exports.deleteRiskByNumber = ({
-  project_number,
-  discipline,
-  stage,
-  number,
-}) => {
-  if (Number(number) < 1) {
+exports.deleteRiskById = ({ project_number, register_id }) => {
+  if (isNaN(register_id)) {
     return Promise.reject({
       status: 400,
-      msg: "Risk number cannot be zero.",
+      msg: "The register_id must be a number.",
     });
   }
   return connection("register")
@@ -398,18 +387,16 @@ exports.deleteRiskByNumber = ({
     })
     .then(() => {
       return connection("register")
-        .where({ project_number, discipline, project_lifecycle_stage: stage })
+        .where({ register_id })
         .orderBy("register_id")
         .then((response) => {
-          if (response.length < Number(number)) {
+          if (response.length < 1) {
             return Promise.reject({
               status: 400,
               msg: "Risk does not exist.",
             });
           } else {
-            return connection("register")
-              .where("register_id", response[Number(number) - 1].register_id)
-              .del();
+            return connection("register").where({ register_id }).del();
           }
         });
     });
